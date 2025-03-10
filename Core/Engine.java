@@ -4,10 +4,19 @@ import byow.TileEngine.TERenderer;
 import byow.TileEngine.TETile;
 
 public class Engine {
-    TERenderer ter = new TERenderer();
-    /* Feel free to change the width and height. */
-    public static final int WIDTH = 80;
-    public static final int HEIGHT = 30;
+    public static final int WIDTH = 50;
+    public static final int HEIGHT = 50;
+    private RandomPlaces generate = new RandomPlaces(WIDTH, HEIGHT);
+    private TERenderer ter;
+
+    // creates a world background when constructor is called
+    public Engine() {
+
+        TETile[][] world = generate.getTiles();
+        ter = new TERenderer();
+        ter.initialize(WIDTH, HEIGHT);
+        ter.renderFrame(world);
+    }
 
     /**
      * Method used for exploring a fresh world. This method should handle all inputs,
