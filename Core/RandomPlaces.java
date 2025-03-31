@@ -96,55 +96,54 @@ private class Coordinate {
 //        addLeftHallway(x, (r.nextInt((y+high)-y+1)+y));
     }
 
-        private void addTopHallway (int x, int y){
+        private void addTopHallway (int x, int y) {
             int length = r.nextInt(10 + 1) + 3;
-            if(!isValidPosition(x, y+length) || !isValidPosition(x,y)) {
+            if(!isValidPosition(x + 1, y + length) || !isValidPosition(x, y)) {
                 return;
             }
-            if (isLastPosition(x, y)) {
-                tiles[x][y] = Tileset.WALL;
-            }
             else {
+                //replaces the wall tile with floor tile from generateRoom
                 tiles[x][y] = Tileset.FLOOR;
                 for (int i = x - 1; i < 2 + x; i++) {
                     for (int j = y; j < y + length; j++) {
-                        if (isValidPosition(i, j)) {
-//                            if(!isOccupied(i, j)) {
-                                if (isLastPosition(i, j)) {
-                                    tiles[i][j] = Tileset.WALL;
-                                    Coordinate coordinate = new Coordinate(i,j);
-                                    hallwayMap.put(coordinate, "wall");
-                                } else {
-                                    if (i == (x - 1) || i == (x + 1)) {
-                                        tiles[i][j] = Tileset.WALL;
-                                        Coordinate coordinate = new Coordinate(i,j);
-                                        hallwayMap.put(coordinate, "wall");
-                                    } else {
-                                        tiles[i][j] = Tileset.FLOOR;
-                                        Coordinate coordinate = new Coordinate(i,j);
+                        if (!isOccupied(i, j)) {
+                            Coordinate coordinate = new Coordinate(i, j);
+                            if (hallwayMap.containsKey(coordinate)) {
+                                if (hallwayMap.get(coordinate).equals("wall")) {
+                                    //if we are not trying to put a wall, then do this:
+                                    if (i != (x - 1) || i == (x + 1)) {
+                                        tiles[i][j] = Tileset.LOCKED_DOOR;
                                         hallwayMap.put(coordinate, "floor");
                                     }
-
+                                }
+                            }
+                            //if there isn't already a hallway there, put a floor or wall...
+                            else {
+                                if (i == (x - 1) || i == (x + 1)) {
+                                    tiles[i][j] = Tileset.WALL;
+                                    hallwayMap.put(coordinate, "wall");
+                                } else {
+                                    tiles[i][j] = Tileset.FLOOR;
+                                    hallwayMap.put(coordinate, "floor");
                                 }
                             }
                         }
                     }
-//                }
+                }
             }
-            //use this one to add the last dot on the last position...
-            if(y+length<totalHeight-4 && x-2>=0) {
-                tiles[x][y]=Tileset.FLOOR;
-                Coordinate coordinate = new Coordinate(x,y);
-                hallwayMap.put(coordinate, "floor");
-                generateRooms(x - 2, y + length - 1);
+                //use this one to add the last dot on the last position...
+                if (y+length < (totalHeight - 4) && x - 2 >= 0) {
+                    tiles[x][y] = Tileset.FLOOR;
+                    Coordinate coordinate = new Coordinate(x, y);
+                    hallwayMap.put(coordinate, "floor");
+                    generateRooms(x - 2, y + length - 1);
+                } else {
+                    //replace the last dot with a pound sign.
+                    tiles[x][y + length - 1] = Tileset.AVATAR;
+                    Coordinate coordinate = new Coordinate(x, y + length - 1);
+                    hallwayMap.put(coordinate, "wall");
+                }
             }
-            else {
-                //replace the last dot with a pound sign.
-                tiles[x][y+length-1]=Tileset.WALL;
-                Coordinate coordinate = new Coordinate(x,y+length-1);
-                hallwayMap.put(coordinate, "wall");
-            }
-        }
 
         private void addBottomHallway ( int x, int y){
             //make it so x, y-1 to make the dot just below it appear. Along its sides need to be walls.
@@ -201,33 +200,23 @@ private class Coordinate {
             }
         }
 
-    private void addRightHallway ( int x, int y){
+    private void addRightHallway (int x, int y){
         int length = r.nextInt(10-3 + 1) + 3;
-        if (isLastPosition(x, y)) {
-            tiles[x][y] = Tileset.WALL;
-        }
-        //do we need "is valid position" on original x,y because we have limits to check on if it is valid when it is called? I had to add the y: y+1 check, so I think we do need it
         if(!isValidPosition(x+length, y+1) || !isValidPosition(x,y)) {
             return;
         }
-        //do we need "isLastPosition" if we already checked that the hallway's coordinates were valid? Yes, but if it is the last position, we don't need to add it to the hallway b/c it is just a wall.
         else {
             //replaces the wall tile with the floor tile from the generateRoom wall.
             tiles[x][y] = Tileset.FLOOR;
-            for (int i = (x + 1); i < x+length; i++) {
-                for (int j =y - 1; j<y+2; j++) {
-                    if ((isValidPosition(i, j))) {
-                        //checks to see if this is a last position, so we can put a wall there. If so, there is no need to ad/use to hallwayMap.
-                        if (isLastPosition(i, j)) {
-                            tiles[i][j] = Tileset.WALL;
-                            continue;
-                        }
-                        //if it is valid, but not last, do this...
-                        Coordinate coordinate = new Coordinate(i,j);
+            for (int i = x+1; i < x+length; i++) {
+                for (int j =y-1; j<y+2; j++) {
+                    if(!isOccupied(i, j)) {
+                        //if there isn't a room already there, do this...
+                        Coordinate coordinate = new Coordinate(i, j);
                         //if this coordinate already has a hallway there, then check for which part of the hallway is there...
-                        if(hallwayMap.containsKey(coordinate)) {
+                        if (hallwayMap.containsKey(coordinate)) {
                             //if hM returns a value that is a wall...
-                            if(hallwayMap.get(coordinate)=="wall") {
+                            if (hallwayMap.get(coordinate) == "wall") {
                                 //if we are not trying to put in a wall, then do this:
                                 if (j != (y - 1) || j != (y + 1)) {
                                     tiles[i][j] = Tileset.FLOOR;
@@ -237,14 +226,14 @@ private class Coordinate {
                             }
                         }
                         //if there isn't already a hallway there, put a floor or wall depending...
-                    else {
-                                if (j==(y-1) || j== (y+1)) {
-                                    tiles[i][j] = Tileset.WALL;
-                                    hallwayMap.put(coordinate, "wall");
-                                } else {
-                                    tiles[i][j] = Tileset.FLOOR;
-                                    hallwayMap.put(coordinate, "wall");
-                                }
+                        else {
+                            if (j == (y - 1) || j == (y + 1)) {
+                                tiles[i][j] = Tileset.WALL;
+                                hallwayMap.put(coordinate, "wall");
+                            } else {
+                                tiles[i][j] = Tileset.FLOOR;
+                                hallwayMap.put(coordinate, "floor");
+                            }
                         }
                     }
                 }
@@ -317,6 +306,5 @@ private class Coordinate {
         public TETile[][] getTiles () {
             return tiles;
         }
-
     }
 
