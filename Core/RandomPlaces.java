@@ -24,7 +24,7 @@ public class RandomPlaces {
     int rightHallLength;
 
 
-    private class Coordinate {
+    static private class Coordinate {
         private int x, y;
 
         public Coordinate(int x, int y) {
@@ -284,24 +284,15 @@ public class RandomPlaces {
     }
 
     private boolean isValidPosition ( int x, int y){
-            if (x >= 0 && x < totalWidth && y >= 0 && y < totalHeight) {
-                return true;
-            }
-            return false;
+            return x >= 0 && x < totalWidth && y >= 0 && y < totalHeight;
         }
 
     private boolean isOccupied ( int x, int y){
-            if (tiles[x][y] == Tileset.NOTHING) {
-                return false;
-            }
-            return true;
+        return tiles[x][y] != Tileset.NOTHING;
         }
 
     private boolean isLastPosition ( int x, int y){
-            if (x == 0 || x == totalWidth - 1 || y == 0 || y == totalHeight - 1) {
-                return true;
-            }
-            return false;
+            return x == 0 || x == totalWidth - 1 || y == 0 || y == totalHeight - 1;
         }
 
     public TETile[][] getTiles () {
