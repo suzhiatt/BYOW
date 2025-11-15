@@ -193,15 +193,20 @@ public class RandomPlaces {
             if (y + hallLength < (totalHeight - 4) && x - 2 >= 0 && !isAvailable(y + hallLength, x - 2)) {
                 addRoomFromTop(x - 2, y + hallLength - 1);
             } else {
-//                if (!isAvailable(x, y + hallLength)) {
-                    tiles[x][y + hallLength - 1] = Tileset.MOUNTAIN;
+                if (!isAvailable(x, y + hallLength)) {
+                    tiles[x][y + hallLength] = Tileset.WALL;
+                    placesMap.put(new Coordinate(x, y + hallLength), "wall");
+                    tiles[x-1][y + hallLength] = Tileset.WALL;
+                    placesMap.put(new Coordinate(x-1, y + hallLength), "wall");
+                    tiles[x+1][y + hallLength] = Tileset.WALL;
+                    placesMap.put(new Coordinate(x+1, y + hallLength), "wall");
+                    System.out.print("Checking if we ever make it to line 207 aka the end of addTopHallway, we do!");
+                }
+                else {
+                    tiles[x][y + hallLength - 1] = Tileset.WALL;
                     coordinate = new Coordinate(x, y + hallLength - 1);
                     placesMap.put(coordinate, "endMiddle");
-//                }
-//                else{
-//                    tiles[x][y + hallLength] = Tileset.FLOWER;
-//                    System.out.print("Checking if we ever make it to line 207 aka the end of addTopHallway, we do!");
-//                }
+                }
             }
         }
     }
