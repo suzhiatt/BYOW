@@ -74,7 +74,7 @@ public class RandomPlaces {
         System.out.println("Room coordinate: x: " + x + " wide: " + wide + " y: " + y + " maxY: " + high + " building: " + z + " built value is " + built);
         z++;
         if (isValidPosition(x, y + high) && isValidPosition(x + wide, y + high) && isValidPosition(x + wide, y) && isValidPosition(x, y)) {
-            if (!isAvailable(x, y + high) && !isAvailable(x, y) && !isAvailable(x + wide, y) && !isAvailable(x + wide, y + high)) {
+            if (isAvailable(x, y + high) && isAvailable(x, y) && isAvailable(x + wide, y) && isAvailable(x + wide, y + high)) {
                 for (int i = x; i <= (wide + x); i++) {
                     for (int j = y; j <= (high + y); j++) {
                         Coordinate coordinate = new Coordinate(i, j);
@@ -131,17 +131,21 @@ public class RandomPlaces {
         System.out.println("Hallways successfully called after building " + z);
     }
 
-    private void addRoomFromTop(int x, int y) {
+    private void addRoomFromTopHallway(int x, int y) {
         generateRooms(x,y);
         if(built) {
-            System.out.println("This room was built from the addRoomFromTop that called genRooms, now it will callHallways");
+            System.out.println("This room was built from the addRoomFromTopHallway now it will callHallways");
             callHallways(x,y);
         }
         else {
+            //had a problem because sometimes intersected with rooms already built, so dealing with it this way...
+            Coordinate coordinate = new Coordinate(x+2,y);
+            String tile = placesMap.get(coordinate);
+            if (!"roomFloor".equals(tile)) {
                 tiles[x+2][y] = Tileset.LOCKED_DOOR;
-                Coordinate coordinate = new Coordinate(x+2,y);
                 placesMap.put(coordinate, "endMiddle");
-                System.out.println("Couldn't generate room from addRoomFromTop, so not adding anything else to it, and trying ends here.");
+            }
+                System.out.println("Couldn't generate room from addRoomFromTopHallway, so not adding anything else to it, and trying ends here.");
         }
     }
 
@@ -176,9 +180,9 @@ public class RandomPlaces {
                 for (int j = y; j < y + hallLength; j++) {
                         coordinate = new Coordinate(i, j);
                         if (i == (x - 1) || i == (x + 1)) {
-                            if(!isAvailable(i,j)) {
+                            if(isAvailable(i,j)) {
                             String tile = placesMap.get(coordinate);
-                                if (!"floor".equals(tile) || !"endMiddle".equals(tile)) {
+                                if (!"floor".equals(tile) || !"endMiddle".equals(tile) || !"roomFloor".equals(tile)) {
                                     tiles[i][j] = Tileset.WALL;
                                     placesMap.put(coordinate, "wall");
                                 }
@@ -190,10 +194,10 @@ public class RandomPlaces {
                 }
             }
             //use this one to add the last dot on the last position...Calls add Room From Top...or not
-            if (y + hallLength < (totalHeight - 4) && x - 2 >= 0 && !isAvailable(y + hallLength, x - 2)) {
-                addRoomFromTop(x - 2, y + hallLength - 1);
+            if (y + hallLength < (totalHeight - 4) && x - 2 >= 0 && isAvailable(x - 2, y + hallLength)) {
+                addRoomFromTopHallway(x - 2, y + hallLength - 1);
             } else {
-                if (!isAvailable(x, y + hallLength)) {
+                if (isAvailable(x, y + hallLength)) {
                     tiles[x][y + hallLength] = Tileset.WALL;
                     placesMap.put(new Coordinate(x, y + hallLength), "wall");
                     tiles[x-1][y + hallLength] = Tileset.WALL;
@@ -255,7 +259,7 @@ public class RandomPlaces {
             }
             
             // Handle the end of the hallway
-            if (x + rightHallLength < totalWidth && y + 2 < totalHeight - 4 && !isAvailable(x + rightHallLength, y + 2)) {
+            if (x + rightHallLength < totalWidth && y + 2 < totalHeight - 4 && isAvailable(x + rightHallLength, y + 2)) {
                 // Continue with a new room
                 tiles[x + rightHallLength][y] = Tileset.FLOOR;
                 placesMap.put(new Coordinate(x + rightHallLength, y), "floor");
@@ -279,7 +283,10 @@ public class RandomPlaces {
         }
 
     private boolean isAvailable(int x, int y){
-        return tiles[x][y] != Tileset.NOTHING;
+        if(tiles[x][y] == Tileset.NOTHING) {
+            return true;
+        }
+            return false;
         }
 
     private boolean isLastPosition ( int x, int y){
