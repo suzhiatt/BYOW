@@ -17,7 +17,6 @@ public class RandomPlaces {
     TETile[][] tiles;
     Random random = new Random();
     HashMap<Coordinate, String> placesMap = new HashMap<>();
-    HashMap<Coordinate, String> roomMap = new HashMap<>();
     int z = 0;
     boolean built;
     int hallLength;
@@ -25,7 +24,7 @@ public class RandomPlaces {
 
 
     static private class Coordinate {
-        private int x, y;
+        private final int x, y;
 
         public Coordinate(int x, int y) {
             this.x = x;
@@ -285,10 +284,7 @@ public class RandomPlaces {
         }
 
     private boolean isAvailable(int x, int y){
-        if(tiles[x][y] == Tileset.NOTHING) {
-            return true;
-        }
-            return false;
+        return tiles[x][y] == Tileset.NOTHING;
         }
 
     private boolean isLastPosition ( int x, int y){
