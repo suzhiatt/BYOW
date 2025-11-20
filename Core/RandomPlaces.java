@@ -73,8 +73,13 @@ public class RandomPlaces {
         high = random.nextInt(11 - 4 + 1) + 4;
         System.out.println("Room coordinate: x: " + x + " wide: " + wide + " y: " + y + " maxY: " + high + " building: " + z + " built value is " + built);
         z++;
-        if (isValidPosition(x, y + high) && isValidPosition(x + wide, y + high) && isValidPosition(x + wide, y) && isValidPosition(x, y)) {
-            if (isAvailable(x, y + high) && isAvailable(x, y) && isAvailable(x + wide, y) && isAvailable(x + wide, y + high)) {
+
+        boolean isValid = (isValidPosition(x, y + high) && isValidPosition(x + wide, y + high) && isValidPosition(x + wide, y) && isValidPosition(x, y));
+
+        if (isValid) {
+            boolean isAvailableSpace = isAvailable(x, y + high) && isAvailable(x, y) && isAvailable(x + wide, y) && isAvailable(x + wide, y + high);
+
+            if (isAvailableSpace) {
                 for (int i = x; i <= (wide + x); i++) {
                     for (int j = y; j <= (high + y); j++) {
                         Coordinate coordinate = new Coordinate(i, j);
@@ -84,18 +89,15 @@ public class RandomPlaces {
 //                            if (placesMap.containsKey(coordinate)) {
                             String tile = placesMap.get(coordinate);
                             // Don't place anything if we find a floor - just skip it
-                            if ("floor".equals(tile)) {
-                                continue;
-                            }
                             // Convert endMiddle to floor
-                            if ("endMiddle".equals(tile)) {
+                            if ("endMiddle".equals(tile) || "floor".equals(tile)) {
                                 tiles[i][j] = Tileset.FLOOR;
                                 placesMap.put(coordinate, "roomFloor");
-                                continue;
                             }
-                            // Only place wall if we haven't found a floor or endMiddle
-                            tiles[i][j] = Tileset.WALL;
-                            placesMap.put(coordinate, "wall");
+                            else {
+                                // Only place wall if we haven't found a floor or endMiddle
+                                tiles[i][j] = Tileset.WALL;
+                                placesMap.put(coordinate, "wall");}
                         } else {
                             //this overrides if there is already a hallway there, right? It would just enlarge the hallway.
                             tiles[i][j] = Tileset.FLOOR;
