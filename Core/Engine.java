@@ -6,24 +6,30 @@ import byow.TileEngine.TETile;
 public class Engine {
     public static final int WIDTH = 50;
     public static final int HEIGHT = 50;
-    private RandomPlaces generate = new RandomPlaces(WIDTH, HEIGHT);
+    private RandomPlaces generate;
     private TERenderer ter;
 
-    // creates a world background when constructor is called
+    // Don't create world in constructor - wait for user to choose from menu
     public Engine() {
-
-        TETile[][] world = generate.getTiles();
+        // Initialize renderer but don't create world yet
         ter = new TERenderer();
-        ter.initialize(WIDTH, HEIGHT);
-        ter.renderFrame(world);
     }
+
 
     /**
      * Method used for exploring a fresh world. This method should handle all inputs,
      * including inputs from the main menu.
      */
     public void interactWithKeyboard() {
+        UserMenu userMenu = new UserMenu();
+        userMenu.drawFrame();
+        //receive input from user and store as "choice"
+        char choice = userMenu.solicitUserInput(0);
+        //call another method to process user's choice
+        userMenu.processUserInput(choice);
+
     }
+
 
     /**
      * Method used for autograding and testing your code. The input string will be a series

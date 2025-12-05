@@ -8,3 +8,4 @@ cd "$(dirname "$0")/byow"
 java -cp "out:../../../library-sp23-main/*" byow.Core.Main "$@"
 
 
+
