@@ -1,6 +1,5 @@
 package byow.Core;
 
-import byow.TileEngine.TERenderer;
 import byow.TileEngine.TETile;
 import byow.TileEngine.Tileset;
 
@@ -303,43 +302,6 @@ public class RandomPlaces {
     public TETile[][] getTiles () {
             return tiles;
         }
-
-    /**
-     * Main method for testing the world generator.
-     * Usage: java byow.Core.RandomPlaces [width] [height]
-     * If no arguments provided, uses default 50x50 world.
-     */
-    public static void main(String[] args) {
-        int width = 50;
-        int height = 50;
-        
-        // Parse command line arguments for width and height (optional)
-        if (args.length >= 1) {
-            try {
-                width = Integer.parseInt(args[0]);
-            } catch (NumberFormatException e) {
-                System.out.println("Invalid width argument, using default 50");
-            }
-        }
-        if (args.length >= 2) {
-            try {
-                height = Integer.parseInt(args[1]);
-            } catch (NumberFormatException e) {
-                System.out.println("Invalid height argument, using default 50");
-            }
-        }
-        
-        // Generate the world
-        RandomPlaces world = new RandomPlaces(width, height);
-        TETile[][] tiles = world.getTiles();
-        
-        // Create and initialize the renderer
-        TERenderer ter = new TERenderer();
-        ter.initialize(width, height);
-        
-        // Render the world
-        ter.renderFrame(tiles);
     }
-}
 
 

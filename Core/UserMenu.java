@@ -13,7 +13,6 @@ public class UserMenu {
     private Random r;
 
     public UserMenu() {
-
         StdDraw.setCanvasSize(this.menuWidth * 16, this.menuHeight * 16);
         Font font = new Font("Monaco", Font.BOLD, 30);
         StdDraw.setFont(font);
@@ -30,9 +29,9 @@ public class UserMenu {
         StdDraw.setPenColor(Color.PINK);
         Font fontBig = new Font("Monaco", Font.BOLD, 30);
         StdDraw.setFont(fontBig);
-        StdDraw.pause(300);
+        StdDraw.text(this.menuWidth / 2, this.menuHeight / 1.5, "Welcome to Susie's World");
+        StdDraw.pause(20);
         if(!gameOver) {
-            StdDraw.text(this.menuWidth / 2, this.menuHeight / 1.5, "Welcome to Susie's World");
             StdDraw.setPenColor(Color.PINK);
             Font fontSmall = new Font("Monaco", Font.BOLD, 20);
             StdDraw.setFont(fontSmall);
@@ -41,7 +40,9 @@ public class UserMenu {
             StdDraw.textLeft(menuWidth/2.25,this.menuHeight-19, "(Q)uit Game");
         }
             else {
-                StdDraw.textLeft(this.menuWidth/2.5, this.menuHeight / 1.5, "Game Over!!!");
+                StdDraw.clear(Color.BLACK);
+                StdDraw.textLeft(this.menuWidth / 2.5, this.menuHeight / 1.5, "Game Over!!!");
+                StdDraw.pause(1000);
         }
         //shows the canvas
         StdDraw.show();
@@ -50,34 +51,32 @@ public class UserMenu {
 
     //wait for user input
     public char solicitUserInput(int n) {
+        //this loop keeps checking for input. Returns immediately when key is pressed. Continues waiting if no key pressed.
         while(true) {
             if(StdDraw.hasNextKeyTyped()) {
                 return Character.toUpperCase(StdDraw.nextKeyTyped());
             }
-            StdDraw.pause(300);
-
+            //the program will make it check indefinitely, so this causes CPU to reduce usage while still responsive.
+            StdDraw.pause(20);
         }
     }
 
     public void processUserInput(char choice) {
-        if (choice == 'Q') {
+        if (choice=='Q') {
             //end game
             gameOver = true;
             drawFrame();
-            StdDraw.pause(3000);
+            StdDraw.pause(2000);
             System.exit(0);
-
-        } else if (choice == 'N') {
+        } else if (choice=='N') {
             //user is prompted to enter a "random seed" which is a long value of their choosing
             //UI should show the seed value that the user has entered so far.
             //After user has pressed the final number in their seed, they should press S to tell the system that they've
             //entered the entire seed that they want.
             //our world generator should handle any see up to 19 numbers long.
-            System.out.println("New Game selected - implement seed input here");
-        } else if (choice == 'L') {
+        } else if (choice=='L') {
             //need to figure out how to load a saved world. Thinking it has something to do with the username saved
             //alongside seed number of previously generated world.
-            System.out.println("Load Game selected - implement loading here");
         } else {
             System.out.println("Please enter one of the three choices again...");
         }
