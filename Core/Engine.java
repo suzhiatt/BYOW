@@ -25,9 +25,9 @@ public class Engine {
      */
     public void interactWithKeyboard() {
         UserMenu userMenu = new UserMenu();
-        userMenu.drawFrame();
+        userMenu.drawFrame("Welcome to Susie's World");
         //receive input from user and store as "choice"
-        char choice = userMenu.solicitUserInput(0);
+        char choice = userMenu.solicitUserInput();
         //call another method to process user's choice
         userMenu.processUserInput(choice);
 
