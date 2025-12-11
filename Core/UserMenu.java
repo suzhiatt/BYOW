@@ -3,6 +3,9 @@ package byow.Core;
 import edu.princeton.cs.algs4.StdDraw;
 
 import java.awt.*;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Random;
 
 public class UserMenu {
@@ -14,10 +17,9 @@ public class UserMenu {
     private int menuWidth = 60;
     private int menuHeight = 30;
     private Random r;
-    private long userSeed;
+    public long userSeed;
 
     public UserMenu() {
-        this.userSeed = userSeed;
         welcomeFrame=true;
         StdDraw.setCanvasSize(this.menuWidth * 16, this.menuHeight * 16);
         Font font = new Font("Monaco", Font.BOLD, 30);
@@ -79,7 +81,7 @@ public class UserMenu {
     }
 
 
-    public void receiveUserSeed() {
+    public void receiveUserSeed() throws IOException {
         StringBuilder sB = new StringBuilder();
         while (true) { //this needs to be said so that it will keep checking continuously
             //my previous error is that it only checked once, and then stopped.
@@ -111,7 +113,7 @@ public class UserMenu {
         }
     }
 
-    public void processUserInput(char choice) {
+    public void processUserInput(char choice) throws IOException {
         if (choice=='Q') {
             //end game
             gameOver = true;
@@ -123,6 +125,10 @@ public class UserMenu {
             //user is prompted to enter a "random seed" which is a long value of their choosing
             drawFrame("Enter a number, press 'S' when finished");
             receiveUserSeed();
+            File file = new File("newGame.txt");
+            FileWriter fr = new FileWriter(file, true);
+            fr.write("New game userSeed is: " + userSeed);
+            fr.close();
             //After user has pressed the final number in their seed, they should press S to tell the system that they've
             //entered the entire seed that they want.
             //our world generator should handle any see up to 19 numbers long.
@@ -137,6 +143,9 @@ public class UserMenu {
 
     public void beginNewGame() {
         //is called when the user enters 'S', begins the program using userSeed;
+        //figure out how to being a new game with the userSeed
+        Engine engine = new Engine();
+        engine.createWorld(userSeed);
     }
 
     public void loadSavedGame(String string) {}

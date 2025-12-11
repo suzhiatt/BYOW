@@ -8,14 +8,12 @@ import java.util.Objects;
 import java.util.Random;
 
 public class RandomPlaces {
-    private final long SEED = 100;
-    private final Random r = new Random(SEED);
+    private Random r = null;
     int totalHeight;
     int totalWidth;
     int wide;
     int high;
     TETile[][] tiles;
-    Random random = new Random();
     HashMap<Coordinate, String> placesMap = new HashMap<>();
     int z = 0;
     boolean built;
@@ -47,7 +45,8 @@ public class RandomPlaces {
         }
     }
 
-    public RandomPlaces(int width, int height) {
+    public RandomPlaces(int width, int height, long seed) {
+        this.r = new Random(seed);
         this.totalWidth = width;
         this.totalHeight = height;
         tiles = new TETile[width][height];
@@ -59,16 +58,16 @@ public class RandomPlaces {
         }
         //calls a random x, y to being the room. The bound is between 1 and 5 so it begins in the bottom left corner of world.
         //I noticed that with the world beginning at x or y = 0, then it only adds one hallway, and can't generate a Room after that.
-        int x = random.nextInt(4)+1;
-        int y = random.nextInt(4)+1;
+        int x = r.nextInt(4)+1;
+        int y = r.nextInt(4)+1;
         addRoomFromTopHallway(x,y);
     }
 
     public void generateRooms(int x, int y) {
         built = false;
         //width and height of room generated
-        wide = random.nextInt(11 - 4 + 1) + 4;
-        high = random.nextInt(11 - 4 + 1) + 4;
+        wide = r.nextInt(11 - 4 + 1) + 4;
+        high = r.nextInt(11 - 4 + 1) + 4;
         System.out.println("Room coordinate: x: " + x + " wide: " + wide + " y: " + y + " maxY: " + high + " building: " + z + " built value is " + built);
         z++;
 
@@ -275,13 +274,13 @@ public class RandomPlaces {
                 addRoomFromRight(x + rightHallLength, y - 1);
             } else {
                 // End the hallway
-                tiles[x + rightHallLength - 1][y + 1] = Tileset.AVATAR;
+                tiles[x + rightHallLength - 1][y + 1] = Tileset.WALL;
                 placesMap.put(new Coordinate(x + rightHallLength - 1, y + 1), "wall");
                 
-                tiles[x + rightHallLength - 1][y] = Tileset.AVATAR;
+                tiles[x + rightHallLength - 1][y] = Tileset.WALL;
                 placesMap.put(new Coordinate(x + rightHallLength - 1, y), "endMiddle");
                 
-                tiles[x + rightHallLength - 1][y - 1] = Tileset.AVATAR;
+                tiles[x + rightHallLength - 1][y - 1] = Tileset.WALL;
                 placesMap.put(new Coordinate(x + rightHallLength - 1, y - 1), "wall");
             }
         }

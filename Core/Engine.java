@@ -3,6 +3,8 @@ package byow.Core;
 import byow.TileEngine.TERenderer;
 import byow.TileEngine.TETile;
 
+import java.io.IOException;
+
 public class Engine {
     public static final int WIDTH = 50;
     public static final int HEIGHT = 50;
@@ -12,8 +14,8 @@ public class Engine {
     public Engine() {
     }
 
-    public void createWorld() {
-        RandomPlaces generate = new RandomPlaces(WIDTH, HEIGHT);
+    public void createWorld(long seed) {
+        RandomPlaces generate = new RandomPlaces(WIDTH, HEIGHT, seed);
         TETile[][] world = generate.getTiles();
         ter = new TERenderer();
         ter.initialize(WIDTH, HEIGHT);
@@ -23,7 +25,7 @@ public class Engine {
      * Method used for exploring a fresh world. This method should handle all inputs,
      * including inputs from the main menu.
      */
-    public void interactWithKeyboard() {
+    public void interactWithKeyboard() throws IOException {
         UserMenu userMenu = new UserMenu();
         userMenu.drawFrame("Welcome to Susie's World");
         //receive input from user and store as "choice"
