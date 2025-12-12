@@ -125,10 +125,6 @@ public class UserMenu {
             //user is prompted to enter a "random seed" which is a long value of their choosing
             drawFrame("Enter a number, press 'S' when finished");
             receiveUserSeed();
-            File file = new File("newGame.txt");
-            FileWriter fr = new FileWriter(file, true);
-            fr.write("New game userSeed is: " + userSeed);
-            fr.close();
             //After user has pressed the final number in their seed, they should press S to tell the system that they've
             //entered the entire seed that they want.
             //our world generator should handle any see up to 19 numbers long.
@@ -141,9 +137,14 @@ public class UserMenu {
         }
     }
 
-    public void beginNewGame() {
+    public void beginNewGame() throws IOException {
         //is called when the user enters 'S', begins the program using userSeed;
         //figure out how to being a new game with the userSeed
+        File file = new File("newGame.txt");
+        FileWriter fr = new FileWriter(file, true);
+        fr.write("New game userSeed is: " + userSeed);
+        fr.close();
+        System.out.println("New game userSeed is: " + userSeed);
         Engine engine = new Engine();
         engine.createWorld(userSeed);
     }
