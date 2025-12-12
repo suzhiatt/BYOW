@@ -139,7 +139,7 @@ public class UserMenu {
 
     public void beginNewGame() throws IOException {
         //is called when the user enters 'S', begins the program using userSeed;
-        //figure out how to being a new game with the userSeed
+        //figure out how to be a new game with the userSeed
         File file = new File("newGame.txt");
         FileWriter fr = new FileWriter(file, true);
         fr.write("New game userSeed is: " + userSeed);
