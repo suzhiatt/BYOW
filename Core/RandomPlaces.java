@@ -3,25 +3,27 @@ package byow.Core;
 import byow.TileEngine.TETile;
 import byow.TileEngine.Tileset;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Objects;
 import java.util.Random;
 
 public class RandomPlaces {
-    private Random r = null;
+    private Random r;
     int totalHeight;
     int totalWidth;
     int wide;
     int high;
     TETile[][] tiles;
-    HashMap<Coordinate, String> placesMap = new HashMap<>();
+    static HashMap<Coordinate, String> placesMap = new HashMap<>();
     int z = 0;
     boolean built;
     int hallLength;
     int rightHallLength;
+    boolean avatar = false;
 
 
-    static private class Coordinate {
+    public static class Coordinate {
         private final int x, y;
 
         public Coordinate(int x, int y) {
@@ -62,6 +64,8 @@ public class RandomPlaces {
         int y = r.nextInt(4)+1;
         addRoomFromTopHallway(x,y);
     }
+
+    RandomPlaces() {}
 
     public void generateRooms(int x, int y) {
         built = false;
@@ -121,6 +125,10 @@ public class RandomPlaces {
                 System.out.println("Tried to generate a room, but the spaces were occupied. Building " + z);
                 z++;
             }
+        }
+        if(!avatar) {
+            tiles[x+1][y+1] = Tileset.AVATAR;
+            avatar = true;
         }
     }
 
@@ -269,7 +277,7 @@ public class RandomPlaces {
             // Handle the end of the hallway
             if (x + rightHallLength < totalWidth && y + 2 < totalHeight - 4 && isAvailable(x + rightHallLength, y + 2)) {
                 // Continue with a new room
-                tiles[x + rightHallLength][y] = Tileset.LOCKED_DOOR;
+                tiles[x + rightHallLength][y] = Tileset.FLOOR;
                 placesMap.put(new Coordinate(x + rightHallLength, y), "floor");
                 addRoomFromRight(x + rightHallLength, y - 1);
             } else {
@@ -285,6 +293,11 @@ public class RandomPlaces {
             }
         }
     }
+
+    public static String getValue(Coordinate key) {
+        return placesMap.get(key);
+    }
+
 
     private boolean isValidPosition ( int x, int y){
             return x >= 0 && x < totalWidth && y >= 0 && y < totalHeight;

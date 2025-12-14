@@ -15,12 +15,21 @@ public class Engine {
     }
 
     public void createWorld(long seed) {
+
         RandomPlaces generate = new RandomPlaces(WIDTH, HEIGHT, seed);
         TETile[][] world = generate.getTiles();
         ter = new TERenderer();
         ter.initialize(WIDTH, HEIGHT);
         ter.renderFrame(world);
     }
+
+//    public void updateAvatarPosition() {
+//        RandomPlaces reRender = new RandomPlaces();
+//        TETile[][] newWorld = reRender.getTiles();
+//        ter = new TERenderer();
+//        ter.initialize(WIDTH, HEIGHT);
+//        ter.renderFrame(newWorld);
+//    }
     /**
      * Method used for exploring a fresh world. This method should handle all inputs,
      * including inputs from the main menu.
@@ -32,7 +41,6 @@ public class Engine {
         char choice = userMenu.solicitUserInput();
         //call another method to process user's choice
         userMenu.processUserInput(choice);
-
     }
 
 

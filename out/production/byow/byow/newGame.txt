@@ -1,1 +1,1 @@
-New game userSeed is: 1234New game userSeed is: 1234567
+New game userSeed is: 12345

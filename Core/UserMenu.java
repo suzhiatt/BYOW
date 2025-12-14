@@ -16,7 +16,6 @@ public class UserMenu {
     private boolean newGame = false;
     private int menuWidth = 60;
     private int menuHeight = 30;
-    private Random r;
     public long userSeed;
 
     public UserMenu() {
@@ -39,7 +38,6 @@ public class UserMenu {
         StdDraw.setFont(fontBig);
         StdDraw.text(this.menuWidth / 2, this.menuHeight / 1.5, string);
         StdDraw.pause(20);
-        System.out.println("welcomeFrame is " + welcomeFrame);
         if(welcomeFrame) {
             StdDraw.setPenColor(Color.PINK);
             Font fontSmall = new Font("Monaco", Font.BOLD, 20);
@@ -141,7 +139,7 @@ public class UserMenu {
         //is called when the user enters 'S', begins the program using userSeed;
         //figure out how to be a new game with the userSeed
         File file = new File("newGame.txt");
-        FileWriter fr = new FileWriter(file, true);
+        FileWriter fr = new FileWriter(file, false);
         fr.write("New game userSeed is: " + userSeed);
         fr.close();
         System.out.println("New game userSeed is: " + userSeed);
