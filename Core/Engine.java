@@ -2,6 +2,8 @@ package byow.Core;
 
 import byow.TileEngine.TERenderer;
 import byow.TileEngine.TETile;
+import byow.TileEngine.Tileset;
+import edu.princeton.cs.algs4.StdDraw;
 
 import java.io.IOException;
 
@@ -9,18 +11,42 @@ public class Engine {
     public static final int WIDTH = 50;
     public static final int HEIGHT = 50;
     private TERenderer ter;
+    int avatarX;
+    int avatarY;
+    TETile[][]world;
 
     // creates a world background when constructor is called
     public Engine() {
     }
 
     public void createWorld(long seed) {
-
         RandomPlaces generate = new RandomPlaces(WIDTH, HEIGHT, seed);
-        TETile[][] world = generate.getTiles();
+        world = generate.getTiles();
         ter = new TERenderer();
         ter.initialize(WIDTH, HEIGHT);
+        avatarX = (generate.getFirstX() + 1);
+        avatarY = (generate.getFirstY() + 1);
+        world[avatarX][avatarY] = Tileset.AVATAR;
         ter.renderFrame(world);
+        beginGamePlay();
+    }
+
+    public void beginGamePlay() {
+
+    UserMovement userMove = new UserMovement(avatarX, avatarY, world);
+    char input = getInput();
+    userMove.processMove(input);
+    ter.renderFrame(world);
+    }
+
+public char getInput() {
+        while (true) {
+            if (StdDraw.hasNextKeyTyped()) {
+                return Character.toUpperCase(StdDraw.nextKeyTyped());
+            }
+            //the program will make it check indefinitely, so this causes CPU to reduce usage while still responsive.
+            StdDraw.pause(20);
+        }
     }
 
 //    public void updateAvatarPosition() {
@@ -30,11 +56,12 @@ public class Engine {
 //        ter.initialize(WIDTH, HEIGHT);
 //        ter.renderFrame(newWorld);
 //    }
+
     /**
      * Method used for exploring a fresh world. This method should handle all inputs,
      * including inputs from the main menu.
      */
-    public void interactWithKeyboard() throws IOException {
+    public void interactWithKeyboard() {
         UserMenu userMenu = new UserMenu();
         userMenu.drawFrame("Welcome to Susie's World");
         //receive input from user and store as "choice"

@@ -79,7 +79,7 @@ public class UserMenu {
     }
 
 
-    public void receiveUserSeed() throws IOException {
+    public void receiveUserSeed() {
         StringBuilder sB = new StringBuilder();
         while (true) { //this needs to be said so that it will keep checking continuously
             //my previous error is that it only checked once, and then stopped.
@@ -100,8 +100,12 @@ public class UserMenu {
                         }
                         else {
                                 userSeed = Long.parseLong(String.valueOf(sB));
+                            try {
                                 beginNewGame();
+                            } catch (IOException e) {
+                                throw new RuntimeException(e);
                             }
+                        }
                         } else {
                             System.out.println("Numbers only, please!");
                         }
@@ -111,7 +115,7 @@ public class UserMenu {
         }
     }
 
-    public void processUserInput(char choice) throws IOException {
+    public void processUserInput(char choice) {
         if (choice=='Q') {
             //end game
             gameOver = true;

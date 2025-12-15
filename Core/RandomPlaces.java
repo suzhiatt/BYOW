@@ -15,13 +15,13 @@ public class RandomPlaces {
     int wide;
     int high;
     TETile[][] tiles;
-    static HashMap<Coordinate, String> placesMap = new HashMap<>();
+    public static HashMap<Coordinate, String> placesMap = new HashMap<>();
     int z = 0;
     boolean built;
     int hallLength;
     int rightHallLength;
-    boolean avatar = false;
-
+    int firstX;
+    int firstY;
 
     public static class Coordinate {
         private final int x, y;
@@ -60,12 +60,10 @@ public class RandomPlaces {
         }
         //calls a random x, y to being the room. The bound is between 1 and 5 so it begins in the bottom left corner of world.
         //I noticed that with the world beginning at x or y = 0, then it only adds one hallway, and can't generate a Room after that.
-        int x = r.nextInt(4)+1;
-        int y = r.nextInt(4)+1;
-        addRoomFromTopHallway(x,y);
+        firstX = r.nextInt(4)+1;
+        firstY = r.nextInt(4)+1;
+        addRoomFromTopHallway(firstX,firstY);
     }
-
-    RandomPlaces() {}
 
     public void generateRooms(int x, int y) {
         built = false;
@@ -125,10 +123,6 @@ public class RandomPlaces {
                 System.out.println("Tried to generate a room, but the spaces were occupied. Building " + z);
                 z++;
             }
-        }
-        if(!avatar) {
-            tiles[x+1][y+1] = Tileset.AVATAR;
-            avatar = true;
         }
     }
 
@@ -314,6 +308,14 @@ public class RandomPlaces {
     public TETile[][] getTiles () {
             return tiles;
         }
+
+    public int getFirstX() {
+        return firstX;
     }
+
+    public int getFirstY() {
+        return firstY;
+    }
+}
 
 
