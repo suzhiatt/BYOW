@@ -14,6 +14,7 @@ public class Engine {
     int avatarX;
     int avatarY;
     TETile[][]world;
+    UserMovement userMove;
 
     // creates a world background when constructor is called
     public Engine() {
@@ -28,15 +29,15 @@ public class Engine {
         avatarY = (generate.getFirstY() + 1);
         world[avatarX][avatarY] = Tileset.AVATAR;
         ter.renderFrame(world);
+        userMove = new UserMovement(avatarX, avatarY, world);
         beginGamePlay();
     }
 
     public void beginGamePlay() {
-
-    UserMovement userMove = new UserMovement(avatarX, avatarY, world);
     char input = getInput();
     userMove.processMove(input);
     ter.renderFrame(world);
+    beginGamePlay();
     }
 
 public char getInput() {

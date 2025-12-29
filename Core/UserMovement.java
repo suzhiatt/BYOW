@@ -25,6 +25,8 @@ public class UserMovement {
 
  public void processMove (char input) {
         if(isValid(input)) {
+//            System.out.println("Input is valid, so oldX is " + oldX + " oldY is " + oldY);
+//            System.out.println("Input is valid, so currentX is " + currentX + " currentY is " + currentY);
             tiles[oldX][oldY]=Tileset.FLOOR;
             tiles[currentX][currentY] = Tileset.AVATAR;
         }
@@ -55,27 +57,38 @@ public class UserMovement {
     //validate move: is this a wall? if so, can't go there
     public boolean isValid(char key) {
         if (key == 'W') {
-            if (!"wall".equals(RandomPlaces.getValue(new RandomPlaces.Coordinate(currentX, currentY + 1)))) {
+            String string = RandomPlaces.getValue(new RandomPlaces.Coordinate(currentX, currentY + 1));
+            if (!"wall".equals(string) && !"endMiddle".equals(string)) {
+                System.out.println("W is found valid. Coordinate is " + RandomPlaces.getValue(new RandomPlaces.Coordinate(currentX+1, currentY)));
                 keyW();
                 return true;
             }
         }
         if (key == 'S') {
-            if ("wall".equals(RandomPlaces.getValue(new RandomPlaces.Coordinate(currentX, currentY - 1)))) {
+            String string = RandomPlaces.getValue(new RandomPlaces.Coordinate(currentX, currentY - 1));
+            if (!"wall".equals(string) && !"endMiddle".equals(string)) {
+//                System.out.println("S is found valid. Coordinate is " + RandomPlaces.getValue(new RandomPlaces.Coordinate(currentX+1, currentY)));
                 keyS();
                 return true;
             }
         }
         if (key == 'A') {
-            if ("wall".equals(RandomPlaces.getValue(new RandomPlaces.Coordinate(currentX - 1, currentY)))) {
+            String string = RandomPlaces.getValue(new RandomPlaces.Coordinate(currentX-1, currentY));
+            if (!"wall".equals(string) && !"endMiddle".equals(string)) {
+//                System.out.println("A is found valid. Coordinate is " + RandomPlaces.getValue(new RandomPlaces.Coordinate(currentX+1, currentY)));
                 keyA();
                 return true;
             }
         }
         if (key == 'D') {
-            if ("wall".equals(RandomPlaces.getValue(new RandomPlaces.Coordinate(currentX, currentY + 1)))) {
+            String string = RandomPlaces.getValue(new RandomPlaces.Coordinate(currentX+1, currentY));
+            if (!"wall".equals(string) && !"endMiddle".equals(string)) {
+               System.out.println("D is found valid. Coordinate is " + RandomPlaces.getValue(new RandomPlaces.Coordinate(currentX+1, currentY)));
                 keyD();
                 return true;
+            }
+            else {
+                System.out.println("#####D is found invalid. Coordinate is " + RandomPlaces.getValue(new RandomPlaces.Coordinate(currentX+1, currentY)));
             }
         }
         if(key==':') {
@@ -93,24 +106,28 @@ private void keyW() {
     oldX =currentX;
     oldY =currentY;
     currentY =oldY + 1;
+//    System.out.println("A wall doesn't exist for W , so oldX is " + oldX + " oldY is " + oldY + " currentY is " + currentY);
 }
 
 private void keyS() {
     oldX = currentX;
     oldY = currentY;
     currentY = oldY - 1;
+//    System.out.println("A wall doesn't exist for S, so oldX is " + oldX + " oldY is " + oldY + " currentY is " + currentY);
     }
 
 private void keyA() {
     oldX = currentX;
     oldY = currentY;
     currentX = oldX-1;
+//    System.out.println("A wall doesn't exist for A, so oldX is " + oldX + " oldY is " + oldY + " currentY is " + currentY);
 }
 
 private void keyD() {
     oldX = currentX;
     oldY = currentY;
-    currentY = oldY + 1;
+    currentX = oldX + 1;
+//    System.out.println("A wall doesn't exist for D, so oldX is " + oldX + " oldY is " + oldY + " currentY is " + currentY);
 }
 
     //update files

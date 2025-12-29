@@ -3,7 +3,6 @@ package byow.Core;
 import byow.TileEngine.TETile;
 import byow.TileEngine.Tileset;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Objects;
 import java.util.Random;
@@ -87,11 +86,11 @@ public class RandomPlaces {
                             //if the key coordinate is in the placesMap, and it is a floor, then leave it alone, if tile is endMiddle -> floor, if neither, then place wall
 //                            if (placesMap.containsKey(coordinate)) {
                             String tile = placesMap.get(coordinate);
-                            System.out.println("About to build a genRooms wall. This is the tile that is already there..." + tile);
+//                            System.out.println("About to build a genRooms wall. This is the tile that is already there..." + tile);
                             if ("endMiddle".equals(tile)) {
-                                tiles[i][j] = Tileset.LOCKED_DOOR;
+                                tiles[i][j] = Tileset.FLOOR;
                                 placesMap.put(coordinate, "roomFloor");
-                                System.out.println("I found an endMiddle piece");
+                                System.out.println("I found an endMiddle piece and replaced it with roomFloor");
                             }
                             if("floor".equals(tile)) {
                                 tiles[i][j] = Tileset.FLOOR;
@@ -100,7 +99,6 @@ public class RandomPlaces {
                             }
                             else {
                                 if(!"roomFloor".equals(tile)) {
-                                    System.out.println("There was no endMiddle or floor, so i put down a wall piece");
                                     // Only place wall if we haven't found a floor or endMiddle
                                     tiles[i][j] = Tileset.WALL;
                                     placesMap.put(coordinate, "wall");}
@@ -167,13 +165,13 @@ public class RandomPlaces {
         }
         else {
             tiles[x + rightHallLength][y + 2] = Tileset.WALL;
-            placesMap.put(new Coordinate(x + rightHallLength - 1, y + 1), "wall");
+            placesMap.put(new Coordinate(x + rightHallLength, y + 1), "wall");
 
             tiles[x + rightHallLength][y+1] = Tileset.WALL;
-            placesMap.put(new Coordinate(x + rightHallLength - 1, y), "endMiddle");
+            placesMap.put(new Coordinate(x + rightHallLength, y), "endMiddle");
 
             tiles[x + rightHallLength][y] = Tileset.WALL;
-            placesMap.put(new Coordinate(x + rightHallLength - 1, y - 1), "wall");
+            placesMap.put(new Coordinate(x + rightHallLength, y - 1), "wall");
         }
     }
 
@@ -196,6 +194,7 @@ public class RandomPlaces {
                         }
                     } else {
                         String tile = placesMap.get(coordinate);
+                        System.out.println("We are checking to add a wall as part of addTopHall. What it will be replacing is..." + tile);
                         //checks to make sure that we are not replacing a roomFloor tile with a floor tile.
                         if (!"roomFloor".equals(tile)) {
                             tiles[i][j] = Tileset.FLOOR;
@@ -223,7 +222,7 @@ public class RandomPlaces {
                             tiles[x][y + hallLength] = Tileset.FLOOR;
                             placesMap.put(topCoordinate, "floor");
                         } else if ("endMiddle".equals(topTile) || "wall".equals(topTile)) {
-                            tiles[x + 1][y + hallLength] = Tileset.MOUNTAIN;
+                            tiles[x + 1][y + hallLength] = Tileset.WALL;
                             placesMap.put(new Coordinate(x+1,y+hallLength), "wall");
                         }
                     }
