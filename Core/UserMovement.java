@@ -25,8 +25,6 @@ public class UserMovement {
 
  public void processMove (char input) {
         if(isValid(input)) {
-//            System.out.println("Input is valid, so oldX is " + oldX + " oldY is " + oldY);
-//            System.out.println("Input is valid, so currentX is " + currentX + " currentY is " + currentY);
             tiles[oldX][oldY]=Tileset.FLOOR;
             tiles[currentX][currentY] = Tileset.AVATAR;
         }
@@ -83,7 +81,7 @@ public class UserMovement {
         if (key == 'D') {
             String string = RandomPlaces.getValue(new RandomPlaces.Coordinate(currentX+1, currentY));
             if (!"wall".equals(string) && !"endMiddle".equals(string)) {
-               System.out.println("D is found valid. Coordinate is " + RandomPlaces.getValue(new RandomPlaces.Coordinate(currentX+1, currentY)));
+ //              System.out.println("D is found valid. Coordinate is " + RandomPlaces.getValue(new RandomPlaces.Coordinate(currentX+1, currentY)));
                 keyD();
                 return true;
             }
@@ -92,12 +90,13 @@ public class UserMovement {
             }
         }
         if(key==':') {
-            UserMenu menu = new UserMenu();
-            menu.processUserInput('Q');
-        }
-        else {
-            System.out.println("Please press W, S, A, D or :Q to quit");
-            return false;
+            Engine engine = new Engine();
+            char next = engine.getInput();
+            if(next=='Q') {
+                UserMenu menu = new UserMenu();
+                menu.processUserInput('Q');
+                return false;
+            }
         }
         return true;
     }
