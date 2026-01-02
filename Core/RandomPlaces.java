@@ -46,6 +46,8 @@ public class RandomPlaces {
         }
     }
 
+    public RandomPlaces() {}
+
     public RandomPlaces(int width, int height, long seed) {
         this.r = new Random(seed);
         this.totalWidth = width;

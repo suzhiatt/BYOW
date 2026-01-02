@@ -89,15 +89,15 @@ public class UserMovement {
                 System.out.println("#####D is found invalid. Coordinate is " + RandomPlaces.getValue(new RandomPlaces.Coordinate(currentX+1, currentY)));
             }
         }
-        if(key==':') {
-            Engine engine = new Engine();
-            char next = engine.getInput();
-            if(next=='Q') {
-                UserMenu menu = new UserMenu();
-                menu.processUserInput('Q');
-                return false;
-            }
-        }
+//        if(key==':') {
+//            Engine engine = new Engine();
+//            char next = engine.getInput();
+//            if(next=='Q') {
+//                UserMenu menu = new UserMenu();
+//                menu.processUserInput('Q');
+//                return false;
+//            }
+//        }
         return true;
     }
 
