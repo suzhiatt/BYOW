@@ -1,5 +1,6 @@
 package byow.Core;
 
+import byow.TileEngine.TETile;
 import edu.princeton.cs.algs4.StdDraw;
 
 import java.awt.*;
@@ -119,6 +120,7 @@ public class UserMenu {
         if (choice=='Q') {
             //end game
             gameOver = true;
+            welcomeFrame = false;
             drawFrame("Game Over!");
             StdDraw.pause(2000);
             System.exit(0);
@@ -127,13 +129,12 @@ public class UserMenu {
             //user is prompted to enter a "random seed" which is a long value of their choosing
             drawFrame("Enter a number, press 'S' when finished");
             receiveUserSeed();
-            //After user has pressed the final number in their seed, they should press S to tell the system that they've
-            //entered the entire seed that they want.
-            //our world generator should handle any see up to 19 numbers long.
         } else if (choice=='L') {
             loadSavedGame = true;
-            //need to figure out how to load a saved world. Thinking it has something to do with the username saved
-            //alongside seed number of previously generated world.
+            SaveGame save = new SaveGame();
+            TETile[][] savedWorld = save.loadSavedGame();
+            Engine engine = new Engine (savedWorld);
+            engine.beginGamePlay();
         } else {
             System.out.println("Please enter one of the three choices again...");
         }

@@ -15,9 +15,17 @@ public class Engine {
     int avatarY;
     TETile[][] world;
     UserMovement userMove;
+    UserMenu userMenu;
 
     // creates a world background when constructor is called
     public Engine() {
+        userMenu = new UserMenu();
+    }
+
+    public Engine(TETile[][] savedWorld) {
+        ter = new TERenderer();
+        ter.initialize(WIDTH, HEIGHT);
+        ter.renderFrame(savedWorld);
     }
 
     public void createWorld(long seed) {
@@ -44,8 +52,8 @@ public class Engine {
                 SaveGame save = new SaveGame();
                 try {
                     save.saveGame(world);
-                    UserMenu menu = new UserMenu();
-                    menu.processUserInput('Q');
+                    userMenu.processUserInput('Q');
+
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
@@ -69,7 +77,6 @@ public class Engine {
     }
 
     public void interactWithKeyboard() {
-        UserMenu userMenu = new UserMenu();
         userMenu.drawFrame("Welcome to Susie's World");
         //receive input from user and store as "choice"
         char choice = userMenu.solicitUserInput();
