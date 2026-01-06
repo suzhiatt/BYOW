@@ -88,32 +88,36 @@ public class RandomPlaces {
                             //if the key coordinate is in the placesMap, and it is a floor, then leave it alone, if tile is endMiddle -> floor, if neither, then place wall
 //                            if (placesMap.containsKey(coordinate)) {
                             String tile = placesMap.get(coordinate);
-//                            System.out.println("About to build a genRooms wall. This is the tile that is already there..." + tile);
+                            System.out.println("About to build a genRooms wall. This is the tile that is already there..." + tile + "at x: " + i + " y " + j);
                             if ("endMiddle".equals(tile)) {
                                 tiles[i][j] = Tileset.FLOOR;
                                 placesMap.put(coordinate, "roomFloor");
-                                System.out.println("I found an endMiddle piece and replaced it with roomFloor");
+//                                System.out.println("Just added roomFloor to hashmap at x: " + i + " y: " + j);
                             }
                             if("floor".equals(tile)) {
                                 tiles[i][j] = Tileset.FLOOR;
                                 placesMap.put(coordinate, "roomFloor");
-                                System.out.println("I found a floor piece, so i put down a room floor");
+//                                System.out.println("Just added roomFloor to hashmap at x: " + i + " y: " + j);;
                             }
                             else {
                                 if(!"roomFloor".equals(tile)) {
                                     // Only place wall if we haven't found a floor or endMiddle
                                     tiles[i][j] = Tileset.WALL;
-                                    placesMap.put(coordinate, "wall");}
+                                    placesMap.put(coordinate, "wall");
+                                    System.out.println("Just added wall to hashmap at x: " + i + " y: " + j);
+                                    }
                                 }
                         } else {
                             //this overrides if there is already a hallway there, right? It would just enlarge the hallway.
                             tiles[i][j] = Tileset.FLOOR;
                             placesMap.put(coordinate, "roomFloor");
+//                            System.out.println("Just added roomfloor to hashmap at x: " + i + " y: " + j);
                         }
                         if (isLastPosition(i, j)) {
                             //this means: isLastPosition on the world. If so, cut anything that is there and put the wall up.
                             tiles[i][j] = Tileset.WALL;
                             placesMap.put(coordinate, "wall");
+                            System.out.println("Just added wall to hashmap at x: " + i + " y: " + j);
                         }
                     }
                     built = true;
@@ -167,13 +171,14 @@ public class RandomPlaces {
         }
         else {
             tiles[x + rightHallLength][y + 2] = Tileset.WALL;
-            placesMap.put(new Coordinate(x + rightHallLength, y + 1), "wall");
+            placesMap.put(new Coordinate(x + rightHallLength, y + 2), "wall");
 
-            tiles[x + rightHallLength][y+1] = Tileset.WALL;
-            placesMap.put(new Coordinate(x + rightHallLength, y), "endMiddle");
+            tiles[x + rightHallLength][y+1] = Tileset.UNLOCKED_DOOR;
+            placesMap.put(new Coordinate(x + rightHallLength, y+1), "endMiddle");
+            System.out.println("*****I added a right hallway endMiddle--UNlocked door as part of line 174");
 
             tiles[x + rightHallLength][y] = Tileset.WALL;
-            placesMap.put(new Coordinate(x + rightHallLength, y - 1), "wall");
+            placesMap.put(new Coordinate(x + rightHallLength, y), "wall");
         }
     }
 
@@ -194,9 +199,16 @@ public class RandomPlaces {
                             tiles[i][j] = Tileset.WALL;
                             placesMap.put(coordinate, "wall");
                         }
+                        else {
+                            String tile = placesMap.get(coordinate);
+                            if("endMiddle".equals(tile)) {
+                                tiles[i][j] = Tileset.FLOOR;
+                                placesMap.put(coordinate, "floor");
+                            }
+                        }
                     } else {
                         String tile = placesMap.get(coordinate);
-                        System.out.println("We are checking to add a wall as part of addTopHall. What it will be replacing is..." + tile);
+                        System.out.println("We are checking to add a floor as part of addTopHall. What it will be replacing is..." + tile + "Tiles is at coord: " + i + ", " + j);
                         //checks to make sure that we are not replacing a roomFloor tile with a floor tile.
                         if (!"roomFloor".equals(tile)) {
                             tiles[i][j] = Tileset.FLOOR;
@@ -276,12 +288,13 @@ public class RandomPlaces {
                 placesMap.put(new Coordinate(x + rightHallLength, y), "floor");
                 addRoomFromRight(x + rightHallLength, y - 1);
             } else {
-                // End the hallway
+                // End the hallway--ends it correctly, why doesn't the other end right hallway work this way?
                 tiles[x + rightHallLength - 1][y + 1] = Tileset.WALL;
                 placesMap.put(new Coordinate(x + rightHallLength - 1, y + 1), "wall");
                 
                 tiles[x + rightHallLength - 1][y] = Tileset.WALL;
                 placesMap.put(new Coordinate(x + rightHallLength - 1, y), "endMiddle");
+                System.out.println("*****I added a right hallway endMiddle as part of line 285");
                 
                 tiles[x + rightHallLength - 1][y - 1] = Tileset.WALL;
                 placesMap.put(new Coordinate(x + rightHallLength - 1, y - 1), "wall");

@@ -4,7 +4,6 @@ import byow.TileEngine.TERenderer;
 import byow.TileEngine.TETile;
 import byow.TileEngine.Tileset;
 import edu.princeton.cs.algs4.StdDraw;
-
 import java.io.IOException;
 
 public class Engine {
@@ -13,6 +12,11 @@ public class Engine {
     private TERenderer ter;
     int avatarX;
     int avatarY;
+    int goldenDoorX;
+    int goldenDoorY;
+    long startTime;
+    int level = 1;
+    long targetDuration = (10_000_000_000L) * level;
     TETile[][] world;
     UserMovement userMove;
     UserMenu userMenu;
@@ -31,11 +35,13 @@ public class Engine {
         avatarY = (generate.getFirstY() + 1);
         world[avatarX][avatarY] = Tileset.AVATAR;
         ter.renderFrame(world);
+        startTime();
         userMove = new UserMovement(avatarX, avatarY, world);
         beginGamePlay();
     }
 
     public void beginGamePlay() {
+        checkTime();
         char input = getInput();
         if(input == ':') {
             char next = getInput();
@@ -64,6 +70,7 @@ public class Engine {
         ter = new TERenderer();
         ter.initialize(WIDTH, HEIGHT);
         ter.renderFrame(world);
+        startTime();
         userMove = new UserMovement(avatarX, avatarY, world);
         beginGamePlay();
     }
@@ -86,5 +93,16 @@ public class Engine {
         userMenu.processUserInput(choice);
     }
 
+    public void startTime() {
+        //start nanoTime
+        startTime = System.nanoTime();
+        }
 
-}
+    public void checkTime() {
+            long currentTime = System.nanoTime();
+            long elapsedTime = currentTime - startTime;
+            if (elapsedTime >= targetDuration) {
+                userMenu.processUserInput('Q');
+            }
+        }
+    }

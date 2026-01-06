@@ -29,7 +29,6 @@ public class SaveGame {
 
     public TETile[][] loadSavedGame(Engine engine) {
         //initialize a TETile[][] with dimensions matching my world (WIDTH X HEIGHT)
-//        randomPlaces = new RandomPlaces();
         world = new TETile[50][50];
         int WIDTH = 50;
         int HEIGHT = 50;
