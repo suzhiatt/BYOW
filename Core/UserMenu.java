@@ -1,13 +1,11 @@
 package byow.Core;
 
-import byow.TileEngine.TETile;
 import edu.princeton.cs.algs4.StdDraw;
 
 import java.awt.*;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.Random;
 
 public class UserMenu {
 
@@ -130,11 +128,12 @@ public class UserMenu {
             drawFrame("Enter a number, press 'S' when finished");
             receiveUserSeed();
         } else if (choice=='L') {
-            loadSavedGame = true;
+//            loadSavedGame = true;
             SaveGame save = new SaveGame();
-            TETile[][] savedWorld = save.loadSavedGame();
-            Engine engine = new Engine (savedWorld);
-            engine.beginGamePlay();
+            Engine engine = new Engine();
+            engine.world=save.loadSavedGame(engine);
+            engine.loadWorld();
+
         } else {
             System.out.println("Please enter one of the three choices again...");
         }

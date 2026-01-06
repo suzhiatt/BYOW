@@ -22,12 +22,6 @@ public class Engine {
         userMenu = new UserMenu();
     }
 
-    public Engine(TETile[][] savedWorld) {
-        ter = new TERenderer();
-        ter.initialize(WIDTH, HEIGHT);
-        ter.renderFrame(savedWorld);
-    }
-
     public void createWorld(long seed) {
         RandomPlaces generate = new RandomPlaces(WIDTH, HEIGHT, seed);
         world = generate.getTiles();
@@ -64,6 +58,14 @@ public class Engine {
             ter.renderFrame(world);
             beginGamePlay();
         }
+    }
+
+    public void loadWorld() {
+        ter = new TERenderer();
+        ter.initialize(WIDTH, HEIGHT);
+        ter.renderFrame(world);
+        userMove = new UserMovement(avatarX, avatarY, world);
+        beginGamePlay();
     }
 
     public char getInput() {

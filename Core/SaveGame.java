@@ -1,22 +1,19 @@
 package byow.Core;
 
-import byow.TileEngine.TERenderer;
 import byow.TileEngine.TETile;
 import byow.TileEngine.Tileset;
 
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.FileReader;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Arrays;
 
 public class SaveGame {
     TETile[][] world;
     TETile tile;
+//    RandomPlaces randomPlaces;
     //constructor
     public SaveGame() {}
 
@@ -30,8 +27,9 @@ public class SaveGame {
         System.out.println("Just copied all of the current world in the file 'savedGame.txt'");
     }
 
-    public TETile[][] loadSavedGame() {
+    public TETile[][] loadSavedGame(Engine engine) {
         //initialize a TETile[][] with dimensions matching my world (WIDTH X HEIGHT)
+//        randomPlaces = new RandomPlaces();
         world = new TETile[50][50];
         int WIDTH = 50;
         int HEIGHT = 50;
@@ -40,7 +38,7 @@ public class SaveGame {
         String filePath = "savedGame.txt";
         try {
             String fileContent = Files.readString(Paths.get(filePath), StandardCharsets.UTF_8);
-            String[] lines = fileContent.isEmpty() ? new String[0] : fileContent.split("\\R");
+            String[] lines = fileContent.split("\\R");
             //go through each array of lines, parse through each character and place a tile at correct [x][y] position in to world.
             for (int i = 0; i < lines.length && i<HEIGHT; i++) {
                 String line = lines[i];
@@ -53,12 +51,17 @@ public class SaveGame {
                     switch (c) {
                         case '@':
                             tile = Tileset.AVATAR;
+                            RandomPlaces.placesMap.put(new RandomPlaces.Coordinate(x,y), "avatar");
+                            engine.avatarX = x;
+                            engine.avatarY = y;
                             break;
                         case '#':
                             tile = Tileset.WALL;
+                            RandomPlaces.placesMap.put(new RandomPlaces.Coordinate(x,y), "wall");
                             break;
-                        case '.':
+                        case '·':
                             tile = Tileset.FLOOR;
+                            RandomPlaces.placesMap.put(new RandomPlaces.Coordinate(x,y), "floor");
                             break;
                         case ' ':
                             tile = Tileset.NOTHING;
