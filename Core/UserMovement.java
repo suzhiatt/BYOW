@@ -1,10 +1,9 @@
 package byow.Core;
 
 import byow.TileEngine.TETile;
-import edu.princeton.cs.algs4.StdDraw;
 import byow.TileEngine.Tileset;
 
-import java.io.IOException;
+import java.util.Random;
 
 public class UserMovement {
     //track position->check input-> validate move -> update files -> re-render -> repeat
@@ -14,6 +13,8 @@ public class UserMovement {
     private int oldY;
     private String string;
     TETile[][] tiles;
+    boolean lockedDoor = false;
+    Random r = new Random();
 
     public UserMovement(int x, int y, TETile[][] world) {
         //create an object that receives the avatar's coordinates. It inputs them as the currentX and currentY. It then updates
@@ -32,34 +33,35 @@ public class UserMovement {
 
     //validate move: is this a wall? if so, can't go there
     public boolean isValid(char key) {
+
         if (key == 'W') {
             String string = RandomPlaces.getValue(new RandomPlaces.Coordinate(currentX, currentY + 1));
+            checkLockedDoor(string);
             if (!"wall".equals(string) && !"endMiddle".equals(string)) {
-                System.out.println("W is found valid. Coordinate is " + RandomPlaces.getValue(new RandomPlaces.Coordinate(currentX+1, currentY)));
                 keyW();
                 return true;
             }
         }
         if (key == 'S') {
             String string = RandomPlaces.getValue(new RandomPlaces.Coordinate(currentX, currentY - 1));
+            checkLockedDoor(string);
             if (!"wall".equals(string) && !"endMiddle".equals(string)) {
-//                System.out.println("S is found valid. Coordinate is " + RandomPlaces.getValue(new RandomPlaces.Coordinate(currentX+1, currentY)));
                 keyS();
                 return true;
             }
         }
         if (key == 'A') {
             String string = RandomPlaces.getValue(new RandomPlaces.Coordinate(currentX-1, currentY));
+            checkLockedDoor(string);
             if (!"wall".equals(string) && !"endMiddle".equals(string)) {
-//                System.out.println("A is found valid. Coordinate is " + RandomPlaces.getValue(new RandomPlaces.Coordinate(currentX+1, currentY)));
                 keyA();
                 return true;
             }
         }
         if (key == 'D') {
             String string = RandomPlaces.getValue(new RandomPlaces.Coordinate(currentX+1, currentY));
+            checkLockedDoor(string);
             if (!"wall".equals(string) && !"endMiddle".equals(string)) {
- //              System.out.println("D is found valid. Coordinate is " + RandomPlaces.getValue(new RandomPlaces.Coordinate(currentX+1, currentY)));
                 keyD();
                 return true;
             }
@@ -67,15 +69,6 @@ public class UserMovement {
                 System.out.println("#####D is found invalid. Coordinate is " + RandomPlaces.getValue(new RandomPlaces.Coordinate(currentX+1, currentY)));
             }
         }
-//        if(key==':') {
-//            Engine engine = new Engine();
-//            char next = engine.getInput();
-//            if(next=='Q') {
-//                UserMenu menu = new UserMenu();
-//                menu.processUserInput('Q');
-//                return false;
-//            }
-//        }
         return true;
     }
 
@@ -83,33 +76,40 @@ private void keyW() {
     oldX =currentX;
     oldY =currentY;
     currentY =oldY + 1;
-//    System.out.println("A wall doesn't exist for W , so oldX is " + oldX + " oldY is " + oldY + " currentY is " + currentY);
-}
+    }
 
 private void keyS() {
     oldX = currentX;
     oldY = currentY;
     currentY = oldY - 1;
-//    System.out.println("A wall doesn't exist for S, so oldX is " + oldX + " oldY is " + oldY + " currentY is " + currentY);
     }
 
 private void keyA() {
     oldX = currentX;
     oldY = currentY;
     currentX = oldX-1;
-//    System.out.println("A wall doesn't exist for A, so oldX is " + oldX + " oldY is " + oldY + " currentY is " + currentY);
-}
+    }
 
 private void keyD() {
     oldX = currentX;
     oldY = currentY;
     currentX = oldX + 1;
-//    System.out.println("A wall doesn't exist for D, so oldX is " + oldX + " oldY is " + oldY + " currentY is " + currentY);
-}
+    }
 
-    //update files
+private boolean checkLockedDoor(String string) {
+        if("lockedDoor".equals(string)) {
+            nextLevel();
+            return lockedDoor=true;
+        }
+        return false;
+    }
 
-    //re-render world
-
+private void nextLevel() {
+        //use a random generator number and call the engine new World thing
+    long seed = r.nextLong();
+    Engine engine = new Engine();
+    engine.level++;
+    engine.createWorld(seed);
+    }
 
 }

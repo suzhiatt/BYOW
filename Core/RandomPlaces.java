@@ -23,7 +23,8 @@ public class RandomPlaces {
     int firstY;
 
     public static class Coordinate {
-        private final int x, y;
+        final int x;
+        final int y;
 
         public Coordinate(int x, int y) {
             this.x = x;
@@ -49,6 +50,7 @@ public class RandomPlaces {
     public RandomPlaces() {}
 
     public RandomPlaces(int width, int height, long seed) {
+        placesMap.clear();
         this.r = new Random(seed);
         this.totalWidth = width;
         this.totalHeight = height;
@@ -173,9 +175,8 @@ public class RandomPlaces {
             tiles[x + rightHallLength][y + 2] = Tileset.WALL;
             placesMap.put(new Coordinate(x + rightHallLength, y + 2), "wall");
 
-            tiles[x + rightHallLength][y+1] = Tileset.UNLOCKED_DOOR;
+            tiles[x + rightHallLength][y+1] = Tileset.WALL;
             placesMap.put(new Coordinate(x + rightHallLength, y+1), "endMiddle");
-            System.out.println("*****I added a right hallway endMiddle--UNlocked door as part of line 174");
 
             tiles[x + rightHallLength][y] = Tileset.WALL;
             placesMap.put(new Coordinate(x + rightHallLength, y), "wall");
@@ -261,7 +262,7 @@ public class RandomPlaces {
             // Start with the entrance
             tiles[x][y] = Tileset.FLOOR;
             placesMap.put(new Coordinate(x, y), "floor");
-            System.out.println("Building right hallway, number " + z + "left coord: " +x + "," + y + "right coord width " + rightHallLength);
+//            System.out.println("Building right hallway, number " + z + "left coord: " +x + "," + y + "right coord width " + rightHallLength);
             z++;
             
             // Create the hallway

@@ -124,16 +124,13 @@ public class UserMenu {
             System.exit(0);
         } else if (choice=='N') {
             newGame = true;
-            //user is prompted to enter a "random seed" which is a long value of their choosing
             drawFrame("Enter a number, press 'S' when finished");
             receiveUserSeed();
         } else if (choice=='L') {
-//            loadSavedGame = true;
             SaveGame save = new SaveGame();
             Engine engine = new Engine();
-            engine.world=save.loadSavedGame(engine);
+            engine.world = save.loadSavedGame(engine);
             engine.loadWorld();
-
         } else {
             System.out.println("Please enter one of the three choices again...");
         }
@@ -145,6 +142,8 @@ public class UserMenu {
         File file = new File("newGame.txt");
         FileWriter fr = new FileWriter(file, false);
         fr.write("New game userSeed is: " + userSeed);
+        int currentLevel = Engine.level;
+        fr.write("currentLevel is: " + currentLevel);
         fr.close();
         System.out.println("New game userSeed is: " + userSeed);
         Engine engine = new Engine();
