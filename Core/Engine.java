@@ -24,6 +24,7 @@ public class Engine {
     TETile[][] world;
     UserMovement userMove;
     UserMenu userMenu;
+    int flowers;
 
     // creates a world background when constructor is called
     public Engine() {
@@ -39,10 +40,12 @@ public class Engine {
         avatarY = (generate.getFirstY() + 1);
         world[avatarX][avatarY] = Tileset.AVATAR;
         setLockedDoor();
+        flowers = level;
+        System.out.println("Flowers are: " + flowers + " and level is: " + level);
         setFlower();
         ter.renderFrame(world);
         startTime();
-        userMove = new UserMovement(avatarX, avatarY, world);
+        userMove = new UserMovement(avatarX, avatarY, world, this);
         System.out.println("THE LEVEL IS...." + level);
         beginGamePlay();
     }
@@ -76,7 +79,7 @@ public class Engine {
         ter.initialize(WIDTH, HEIGHT);
         ter.renderFrame(world);
         startTime();
-        userMove = new UserMovement(avatarX, avatarY, world);
+        userMove = new UserMovement(avatarX, avatarY, world, this);
         beginGamePlay();
     }
 
