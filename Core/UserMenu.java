@@ -1,7 +1,6 @@
 package byow.Core;
 
 import edu.princeton.cs.algs4.StdDraw;
-
 import java.awt.*;
 import java.io.File;
 import java.io.FileWriter;
@@ -13,9 +12,12 @@ public class UserMenu {
     private boolean loadSavedGame = false;
     private boolean gameOver = false;
     private boolean newGame = false;
+    private boolean newLevel = false;
+    private boolean receiveSeed = false;
     private int menuWidth = 60;
     private int menuHeight = 30;
     public long userSeed;
+    private Engine engine;
 
     public UserMenu() {
         welcomeFrame=true;
@@ -47,16 +49,42 @@ public class UserMenu {
             welcomeFrame = false;
         }
             else if (gameOver){
-//                StdDraw.clear(Color.BLACK);
-                StdDraw.textLeft(this.menuWidth / 3, this.menuHeight-15, "Hope to see you again!");
-                StdDraw.pause(100);
+            StdDraw.setPenColor(Color.PINK);
+            Font fontSmall = new Font("Monaco", Font.BOLD, 20);
+            StdDraw.setFont(fontSmall);
+            StdDraw.textLeft(this.menuWidth / 2.6, this.menuHeight-15, "You reached level " + Engine.level);
+            StdDraw.textLeft(this.menuWidth / 2.6, this.menuHeight-17, "Hope to see you again!");
+            StdDraw.pause(100);
+            gameOver = false;
+        }
+            else if (receiveSeed) {
         }
             else if (loadSavedGame){
-
+            StdDraw.setPenColor(Color.PINK);
+            Font fontSmall = new Font("Monaco", Font.BOLD, 20);
+            StdDraw.setFont(fontSmall);
+            StdDraw.textLeft(this.menuWidth / 3, this.menuHeight-15, "Get ready for some fun...");
+            StdDraw.pause(100);
+            loadSavedGame = false;
         }
-            else {
-                // new menu
-
+            else if (newGame){
+            StdDraw.setPenColor(Color.PINK);
+            Font fontSmall = new Font("Monaco", Font.BOLD, 20);
+            StdDraw.setFont(fontSmall);
+            StdDraw.textLeft(this.menuWidth / 3, this.menuHeight-15, "Your avatar is '@'");
+            StdDraw.textLeft(this.menuWidth / 3, this.menuHeight-17, "Gobble up the flowers!");
+            StdDraw.textLeft(this.menuWidth / 3, this.menuHeight-19, "Run through locked Door before time runs out!");
+            StdDraw.textLeft(this.menuWidth / 3, this.menuHeight-21, "Good Luck!");
+            StdDraw.pause(100);
+            newGame = false;
+        }
+            else if (newLevel) {
+            StdDraw.setPenColor(Color.PINK);
+            Font fontSmall = new Font("Monaco", Font.BOLD, 20);
+            StdDraw.setFont(fontSmall);
+            StdDraw.textLeft(this.menuWidth / 3, this.menuHeight-15, "Congrats on passing the level!");
+            StdDraw.textLeft(this.menuWidth / 3, this.menuHeight-15, "You're about to begin level " + Engine.level);
+                newLevel = false;
         }
         //shows the canvas
         StdDraw.show();
@@ -91,21 +119,17 @@ public class UserMenu {
                 } else {
                     if (curr == 'Q') {
                         processUserInput('Q');
-                    } else if (curr == 'S') {
-                        if (sB.length() == 1) {
-                            //needs to generate a random string of numbers, save it as a string, then call this.
-                            String string = "";
-                            loadSavedGame(string);
-                        }
-                        else {
+                    }
+                    else if (curr == 'S') {
                                 userSeed = Long.parseLong(String.valueOf(sB));
                             try {
+                                receiveSeed=false;
                                 beginNewGame();
                             } catch (IOException e) {
-                                throw new RuntimeException(e);
+                                System.out.println("Error creating new game: " + e.getMessage());
                             }
                         }
-                        } else {
+                    else {
                             System.out.println("Numbers only, please!");
                         }
                     }
@@ -115,20 +139,25 @@ public class UserMenu {
     }
 
     public void processUserInput(char choice) {
+        if (engine == null) {
+            engine = new Engine();
+        }
         if (choice=='Q') {
             //end game
-            gameOver = true;
             welcomeFrame = false;
+            gameOver = true;
             drawFrame("Game Over!");
             StdDraw.pause(2000);
             System.exit(0);
         } else if (choice=='N') {
-            newGame = true;
+            receiveSeed = true;
             drawFrame("Enter a number, press 'S' when finished");
             receiveUserSeed();
         } else if (choice=='L') {
+            loadSavedGame=true;
+            drawFrame("Loading Saved Game!");
+            StdDraw.pause(2000);
             SaveGame save = new SaveGame();
-            Engine engine = new Engine();
             engine.world = save.loadSavedGame(engine);
             engine.loadWorld();
         } else {
@@ -138,18 +167,12 @@ public class UserMenu {
 
     public void beginNewGame() throws IOException {
         //is called when the user enters 'S', begins the program using userSeed;
-        //figure out how to be a new game with the userSeed
         File file = new File("newGame.txt");
         FileWriter fr = new FileWriter(file, false);
         fr.write("New game userSeed is: " + userSeed);
-        int currentLevel = Engine.level;
-        fr.write("currentLevel is: " + currentLevel);
         fr.close();
         System.out.println("New game userSeed is: " + userSeed);
-        Engine engine = new Engine();
         engine.createWorld(userSeed);
     }
+    }
 
-    public void loadSavedGame(String string) {}
-   
-}

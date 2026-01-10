@@ -122,7 +122,6 @@ private void checkLockedDoor(String string) {
 private void nextLevel() {
         //use a random generator number and call the engine new World thing
     long seed = r.nextLong();
-    Engine engine = new Engine();
     engine.level++;
     engine.createWorld(seed);
     }

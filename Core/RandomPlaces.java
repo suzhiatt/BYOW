@@ -90,7 +90,7 @@ public class RandomPlaces {
                             //if the key coordinate is in the placesMap, and it is a floor, then leave it alone, if tile is endMiddle -> floor, if neither, then place wall
 //                            if (placesMap.containsKey(coordinate)) {
                             String tile = placesMap.get(coordinate);
-                            System.out.println("About to build a genRooms wall. This is the tile that is already there..." + tile + "at x: " + i + " y " + j);
+//                            System.out.println("About to build a genRooms wall. This is the tile that is already there..." + tile + "at x: " + i + " y " + j);
                             if ("endMiddle".equals(tile)) {
                                 tiles[i][j] = Tileset.FLOOR;
                                 placesMap.put(coordinate, "roomFloor");
@@ -106,7 +106,7 @@ public class RandomPlaces {
                                     // Only place wall if we haven't found a floor or endMiddle
                                     tiles[i][j] = Tileset.WALL;
                                     placesMap.put(coordinate, "wall");
-                                    System.out.println("Just added wall to hashmap at x: " + i + " y: " + j);
+//                                    System.out.println("Just added wall to hashmap at x: " + i + " y: " + j);
                                     }
                                 }
                         } else {
@@ -119,7 +119,7 @@ public class RandomPlaces {
                             //this means: isLastPosition on the world. If so, cut anything that is there and put the wall up.
                             tiles[i][j] = Tileset.WALL;
                             placesMap.put(coordinate, "wall");
-                            System.out.println("Just added wall to hashmap at x: " + i + " y: " + j);
+//                            System.out.println("Just added wall to hashmap at x: " + i + " y: " + j);
                         }
                     }
                     built = true;
@@ -209,7 +209,7 @@ public class RandomPlaces {
                         }
                     } else {
                         String tile = placesMap.get(coordinate);
-                        System.out.println("We are checking to add a floor as part of addTopHall. What it will be replacing is..." + tile + "Tiles is at coord: " + i + ", " + j);
+//                        System.out.println("We are checking to add a floor as part of addTopHall. What it will be replacing is..." + tile + "Tiles is at coord: " + i + ", " + j);
                         //checks to make sure that we are not replacing a roomFloor tile with a floor tile.
                         if (!"roomFloor".equals(tile)) {
                             tiles[i][j] = Tileset.FLOOR;

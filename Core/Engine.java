@@ -75,6 +75,7 @@ public class Engine {
     }
 
     public void loadWorld() {
+        flowers = Engine.level;
         ter = new TERenderer();
         ter.initialize(WIDTH, HEIGHT);
         ter.renderFrame(world);

@@ -22,7 +22,7 @@ public class SaveGame {
         FileWriter fr = new FileWriter(file, false);
         String writtenWorld = TETile.toString(world);
         fr.write(writtenWorld);
-        fr.write("\nlevel:" + level);
+        fr.write("\nlevel:" + Engine.level);
         fr.close();
         System.out.println("Just copied all of the current world in the file 'savedGame.txt'");
     }
@@ -38,16 +38,19 @@ public class SaveGame {
         try {
             String fileContent = Files.readString(Paths.get(filePath), StandardCharsets.UTF_8);
             String[] lines = fileContent.split("\\R");
-            //go through each array of lines, parse through each character and place a tile at correct [x][y] position in to world.
-            for (int i = 0; i < lines.length && i<HEIGHT; i++) {
-                String line = lines[i];
-                if(lines[i].startsWith("level:")) {
-                    String levelLine = lines[i];
-                    String levelStr = levelLine.substring("LEVEL:".length());
-                    engine.level = Integer.parseInt(levelStr);
-                }
-                int y = (HEIGHT-1) - i;
 
+                String levelLine = lines[lines.length - 1];
+                System.out.println("Last line is: " + levelLine);
+                if (levelLine.startsWith("level:")) {
+                    String levelStr = levelLine.substring("level:".length()).trim();
+                    System.out.println("Level string is: " + levelStr);
+                    Engine.level = Integer.parseInt(levelStr);
+                    System.out.println("Engine.level set to: " + Engine.level);
+                }
+
+            for (int i = 0; i < lines.length-1 && i<HEIGHT; i++) {
+                String line = lines[i];
+                int y = (HEIGHT-1) - i;
                 for (int j = 0; j<line.length() && j < WIDTH; j++) {
                     char c = line.charAt(j);
                     int x = j;
