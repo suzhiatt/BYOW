@@ -113,7 +113,7 @@ private void keyD() {
     }
 
 private void checkLockedDoor(String string) {
-        if("lockedDoor".equals(string) && engine.flowers<=0) {
+        if("lockedDoor".equals(string) && Engine.flowers<=0) {
                 engine.nextLevel();
         }
     }

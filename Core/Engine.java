@@ -4,6 +4,8 @@ import byow.TileEngine.TERenderer;
 import byow.TileEngine.TETile;
 import byow.TileEngine.Tileset;
 import edu.princeton.cs.algs4.StdDraw;
+
+import java.awt.*;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Map;
@@ -21,11 +23,11 @@ public class Engine {
     int lockedDoorY;
     long startTime;
     public static int level = 1;
+    public static int flowers = 1;
     long targetDuration = (25_000_000_000L) * level;
     TETile[][] world;
     UserMovement userMove;
     UserMenu userMenu;
-    int flowers;
     Random r = new Random();
 
     // creates a world background when constructor is called
@@ -42,12 +44,13 @@ public class Engine {
         avatarY = (generate.getFirstY() + 1);
         world[avatarX][avatarY] = Tileset.AVATAR;
         setLockedDoor();
-        flowers = level;
+        System.out.println("Engine.level set to: " + Engine.level);
         System.out.println("Flowers are: " + flowers + " and level is: " + level);
         setFlower();
         ter.renderFrame(world);
         startTime();
         userMove = new UserMovement(avatarX, avatarY, world, this);
+        drawHUD();
         beginGamePlay();
     }
 
@@ -72,12 +75,12 @@ public class Engine {
         } else {
             userMove.processMove(input);
             ter.renderFrame(world);
+            drawHUD();
             beginGamePlay();
         }
     }
 
     public void loadWorld() {
-        flowers = Engine.level;
         ter = new TERenderer();
         ter.initialize(WIDTH, HEIGHT);
         ter.renderFrame(world);
@@ -151,6 +154,7 @@ public class Engine {
             RandomPlaces.placesMap.put(new RandomPlaces.Coordinate(randomElement.x, randomElement.y), "flower");
             i++;
         }
+        flowers=level;
     }
 
     public void nextLevel() {
@@ -171,5 +175,14 @@ public class Engine {
 
     public void printSeed(long seed) {
         System.out.println("For level: " + level + " This is the seed: " + seed);
+    }
+
+    public void drawHUD() {
+        StdDraw.setPenColor(Color.WHITE);
+        StdDraw.setFont(new Font("Monaco", Font.BOLD, 16));
+        //HUD elements
+        StdDraw.textLeft(1, HEIGHT - 1, "Level: " + level);
+        StdDraw.textLeft(1, HEIGHT - 2, "Flowers: " + flowers);
+        StdDraw.show();  // Make sure to show the updates
     }
 }

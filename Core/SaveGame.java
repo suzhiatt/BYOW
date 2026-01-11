@@ -22,6 +22,7 @@ public class SaveGame {
         FileWriter fr = new FileWriter(file, false);
         String writtenWorld = TETile.toString(world);
         fr.write(writtenWorld);
+        fr.write("\nflowers: " + Engine.flowers);
         fr.write("\nlevel:" + Engine.level);
         fr.close();
         System.out.println("Just copied all of the current world in the file 'savedGame.txt'");
@@ -39,14 +40,19 @@ public class SaveGame {
             String fileContent = Files.readString(Paths.get(filePath), StandardCharsets.UTF_8);
             String[] lines = fileContent.split("\\R");
 
+                String flowersLine = lines[lines.length-2];
+                    String flowerStr = flowersLine.substring("flowers:".length()).trim();
+                    System.out.println("Line 45 Level flowers is: " + flowerStr);
+                    Engine.flowers=Integer.parseInt(flowerStr);
+                    System.out.println("Line 47 Engine.flowers set to: " + Engine.flowers);
+
                 String levelLine = lines[lines.length - 1];
-                System.out.println("Last line is: " + levelLine);
-                if (levelLine.startsWith("level:")) {
+//                if (levelLine.startsWith("level:")) {
                     String levelStr = levelLine.substring("level:".length()).trim();
-                    System.out.println("Level string is: " + levelStr);
+                    System.out.println("Line 52 Level string is: " + levelStr);
                     Engine.level = Integer.parseInt(levelStr);
-                    System.out.println("Engine.level set to: " + Engine.level);
-                }
+                    System.out.println("Line 54 Engine.level set to: " + Engine.level);
+//                }
 
             for (int i = 0; i < lines.length-1 && i<HEIGHT; i++) {
                 String line = lines[i];
