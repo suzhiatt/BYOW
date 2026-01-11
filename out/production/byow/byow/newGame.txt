@@ -1,1 +1,1 @@
-New game userSeed is: 234234
+New game userSeed is: 383838

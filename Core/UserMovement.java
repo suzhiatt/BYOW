@@ -14,7 +14,6 @@ public class UserMovement {
     private int oldY;
     private String string;
     TETile[][] tiles;
-    Random r = new Random();
 
     public UserMovement(int x, int y, TETile[][] world, Engine engine) {
         //create an object that receives the avatar's coordinates. It inputs them as the currentX and currentY. It then updates
@@ -115,15 +114,7 @@ private void keyD() {
 
 private void checkLockedDoor(String string) {
         if("lockedDoor".equals(string) && engine.flowers<=0) {
-                nextLevel();
+                engine.nextLevel();
         }
     }
-
-private void nextLevel() {
-        //use a random generator number and call the engine new World thing
-    long seed = r.nextLong();
-    engine.level++;
-    engine.createWorld(seed);
-    }
-
 }

@@ -10,6 +10,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.Random;
 
+
 public class Engine {
     public static final int WIDTH = 50;
     public static final int HEIGHT = 50;
@@ -25,6 +26,7 @@ public class Engine {
     UserMovement userMove;
     UserMenu userMenu;
     int flowers;
+    Random r = new Random();
 
     // creates a world background when constructor is called
     public Engine() {
@@ -46,7 +48,6 @@ public class Engine {
         ter.renderFrame(world);
         startTime();
         userMove = new UserMovement(avatarX, avatarY, world, this);
-        System.out.println("THE LEVEL IS...." + level);
         beginGamePlay();
     }
 
@@ -61,6 +62,7 @@ public class Engine {
                 SaveGame save = new SaveGame();
                 try {
                     save.saveGame(world, level);
+                    userMenu.quitEarly=true;
                     userMenu.processUserInput('Q');
 
                 } catch (IOException e) {
@@ -95,6 +97,7 @@ public class Engine {
     }
 
     public void interactWithKeyboard() {
+        userMenu.welcomeFrame=true;
         userMenu.drawFrame("Welcome to Susie's World");
         //receive input from user and store as "choice"
         char choice = userMenu.solicitUserInput();
@@ -111,6 +114,7 @@ public class Engine {
         long currentTime = System.nanoTime();
         long elapsedTime = currentTime - startTime;
         if (elapsedTime >= targetDuration) {
+            userMenu.outOfTime=true;
             userMenu.processUserInput('Q');
         }
     }
@@ -147,5 +151,25 @@ public class Engine {
             RandomPlaces.placesMap.put(new RandomPlaces.Coordinate(randomElement.x, randomElement.y), "flower");
             i++;
         }
+    }
+
+    public void nextLevel() {
+        long seed = r.nextLong();
+        level++;
+        printSeed(seed);
+        userMenu.newLevel=true;
+        userMenu.drawFrame("");
+        StdDraw.pause(3000);
+        createWorld(seed);
+    }
+
+    public void loadSavedGame() {
+        SaveGame saveGame = new SaveGame();
+        world=saveGame.loadSavedGame(this);
+        loadWorld();
+    }
+
+    public void printSeed(long seed) {
+        System.out.println("For level: " + level + " This is the seed: " + seed);
     }
 }
