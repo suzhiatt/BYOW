@@ -12,7 +12,6 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.Random;
 
-
 public class Engine {
     public static final int WIDTH = 50;
     public static final int HEIGHT = 50;
@@ -24,7 +23,8 @@ public class Engine {
     long startTime;
     public static int level = 1;
     public static int flowers = 1;
-    long targetDuration = (25_000_000_000L) * level;
+    long targetDuration = 20_000_000_000L;
+    int timeRemaining;
     TETile[][] world;
     UserMovement userMove;
     UserMenu userMenu;
@@ -91,6 +91,9 @@ public class Engine {
 
     public char getInput() {
         while (true) {
+            checkTime();
+            ter.renderFrame(world);  // Re-render
+            drawHUD();
             if (StdDraw.hasNextKeyTyped()) {
                 return Character.toUpperCase(StdDraw.nextKeyTyped());
             }
@@ -116,6 +119,8 @@ public class Engine {
     public void checkTime() {
         long currentTime = System.nanoTime();
         long elapsedTime = currentTime - startTime;
+        targetDuration = getTargetDuration();
+        timeRemaining = (int)Math.max(0, ((targetDuration - elapsedTime)/1_000_000_000L));
         if (elapsedTime >= targetDuration) {
             userMenu.outOfTime=true;
             userMenu.processUserInput('Q');
@@ -173,6 +178,10 @@ public class Engine {
         loadWorld();
     }
 
+    public long getTargetDuration() {
+        return 25_000_000_000L + level*(5_000_000_000L);
+    }
+
     public void printSeed(long seed) {
         System.out.println("For level: " + level + " This is the seed: " + seed);
     }
@@ -183,6 +192,7 @@ public class Engine {
         //HUD elements
         StdDraw.textLeft(1, HEIGHT - 1, "Level: " + level);
         StdDraw.textLeft(1, HEIGHT - 2, "Flowers: " + flowers);
+        StdDraw.textLeft(1, HEIGHT-3,"Time: " + timeRemaining);
         StdDraw.show();  // Make sure to show the updates
     }
 }

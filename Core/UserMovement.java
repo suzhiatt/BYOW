@@ -5,14 +5,15 @@ import byow.TileEngine.Tileset;
 
 import java.util.Random;
 
+import static byow.Core.RandomPlaces.placesMap;
+
 public class UserMovement {
     private final Engine engine;
     //track position->check input-> validate move -> update files -> re-render -> repeat
     private int currentX;
     private int currentY;
-    private int oldX;
-    private int oldY;
-    private String string;
+    private boolean flowerEaten;
+    private String value;
     TETile[][] tiles;
 
     public UserMovement(int x, int y, TETile[][] world, Engine engine) {
@@ -24,97 +25,54 @@ public class UserMovement {
         this.engine = engine;
     }
 
- public void processMove (char input) {
-        if(isValid(input)) {
-            tiles[oldX][oldY]=Tileset.FLOOR;
+    public void processMove(char input) {
+        int newX = currentX;
+        int newY = currentY;
+        boolean change;
+
+        switch (input) {
+            case 'W': newY++; break;
+            case 'S': newY--; break;
+            case 'A': newX--; break;
+            case 'D': newX++; break;
+            default: return;
+        }
+
+        value = RandomPlaces.getValue(new RandomPlaces.Coordinate(newX, newY));
+        change = checkInput(value);
+
+        if(change) {
+            // Update hashmap
+            RandomPlaces.placesMap.put(new RandomPlaces.Coordinate(newX, newY), "floor");
+            // Update tiles
+            tiles[currentX][currentY] = Tileset.FLOOR;
+            currentX = newX;
+            currentY = newY;
             tiles[currentX][currentY] = Tileset.AVATAR;
-        }
- }
-
-    //validate move: is this a wall? if so, can't go there
-public boolean isValid(char key) {
-
-        if (key == 'W') {
-            String string = RandomPlaces.getValue(new RandomPlaces.Coordinate(currentX, currentY + 1));
-            checkLockedDoor(string);
-            if (!"wall".equals(string) && !"endMiddle".equals(string) && !"lockedDoor".equals(string)) {
-                if("flower".equals(string)) {
-                    engine.flowers--;
-                    System.out.println("Decremented flowers, there are this many flowers left: " + engine.flowers);
-                }
-                keyW();
-                return true;
+            if(flowerEaten) {
+                engine.flowers--;
+                flowerEaten=false;
             }
         }
+    }
 
-        if (key == 'S') {
-            String string = RandomPlaces.getValue(new RandomPlaces.Coordinate(currentX, currentY - 1));
+    private boolean checkInput (String string) {
+        if("flower".equals(string)) {
+            flowerEaten = true;
+            return true;
+        }
+        else if ("floor".equals(string) || "roomFloor".equals(string)) {
+            return true;
+        }
+        else {
             checkLockedDoor(string);
-            if (!"wall".equals(string) && !"endMiddle".equals(string) && !"lockedDoor".equals(string)) {
-                if("flower".equals(string)) {
-                    engine.flowers--;
-                    System.out.println("Decremented flowers, there are this many flowers left: " + engine.flowers);
-                }
-                keyS();
-                return true;
-            }
+        }
+            return false;
         }
 
-        if (key == 'A') {
-            String string = RandomPlaces.getValue(new RandomPlaces.Coordinate(currentX-1, currentY));
-            checkLockedDoor(string);
-            if (!"wall".equals(string) && !"endMiddle".equals(string) && !"lockedDoor".equals(string)) {
-                if("flower".equals(string)) {
-                    engine.flowers--;
-                    System.out.println("Decremented flowers, there are this many flowers left: " + engine.flowers);
-                }
-                keyA();
-                return true;
-            }
-        }
-
-        if (key == 'D') {
-            String string = RandomPlaces.getValue(new RandomPlaces.Coordinate(currentX+1, currentY));
-            checkLockedDoor(string);
-            if (!"wall".equals(string) && !"endMiddle".equals(string) && !"lockedDoor".equals(string)) {
-                if("flower".equals(string)) {
-                    engine.flowers--;
-                    System.out.println("Decremented flowers, there are this many flowers left: " + engine.flowers);
-                }
-                keyD();
-                return true;
-            }
-        }
-        return false;
-    }
-
-private void keyW() {
-    oldX =currentX;
-    oldY =currentY;
-    currentY =oldY + 1;
-    }
-
-private void keyS() {
-    oldX = currentX;
-    oldY = currentY;
-    currentY = oldY - 1;
-    }
-
-private void keyA() {
-    oldX = currentX;
-    oldY = currentY;
-    currentX = oldX-1;
-    }
-
-private void keyD() {
-    oldX = currentX;
-    oldY = currentY;
-    currentX = oldX + 1;
-    }
-
-private void checkLockedDoor(String string) {
+    private void checkLockedDoor(String string) {
         if("lockedDoor".equals(string) && Engine.flowers<=0) {
-                engine.nextLevel();
+            engine.nextLevel();
         }
     }
 }
