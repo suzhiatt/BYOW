@@ -24,10 +24,11 @@ public class Engine {
     public static int level = 1;
     public static int flowers = 1;
     long targetDuration = 20_000_000_000L;
-    int timeRemaining;
+    public static long timeRemaining;
     TETile[][] world;
     UserMovement userMove;
     UserMenu userMenu;
+    public static boolean loadStartTime = false;
     Random r = new Random();
 
     // creates a world background when constructor is called
@@ -113,7 +114,12 @@ public class Engine {
 
     public void startTime() {
         //start nanoTime
-        startTime = System.nanoTime();
+        if(loadStartTime) {
+            loadStartTime = false;
+        }
+        else {
+            startTime = System.nanoTime();
+        }
     }
 
     public void checkTime() {
@@ -175,11 +181,14 @@ public class Engine {
     public void loadSavedGame() {
         SaveGame saveGame = new SaveGame();
         world=saveGame.loadSavedGame(this);
+        long targetDuration = getTargetDuration();
+        long elapsedTime = targetDuration - (timeRemaining * 1_000_000_000L);
+        startTime = System.nanoTime()-elapsedTime;
         loadWorld();
     }
 
     public long getTargetDuration() {
-        return 25_000_000_000L + level*(5_000_000_000L);
+        return 25_000_000_000L + (level*(3_000_000_000L));
     }
 
     public void printSeed(long seed) {
@@ -189,7 +198,6 @@ public class Engine {
     public void drawHUD() {
         StdDraw.setPenColor(Color.WHITE);
         StdDraw.setFont(new Font("Monaco", Font.BOLD, 16));
-        //HUD elements
         StdDraw.textLeft(1, HEIGHT - 1, "Level: " + level);
         StdDraw.textLeft(1, HEIGHT - 2, "Flowers: " + flowers);
         StdDraw.textLeft(1, HEIGHT-3,"Time: " + timeRemaining);
