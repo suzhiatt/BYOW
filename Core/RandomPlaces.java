@@ -153,7 +153,7 @@ public class RandomPlaces {
         else {
             Coordinate coordinate = new Coordinate(x+2,y);
             String tile = placesMap.get(coordinate);
-            System.out.println("Line 139 has a tile that is ... if this is ever NOT floor, do a dance. Otherwise, we should delete this?" + tile);
+            System.out.println("Line 156 has a tile that is ... if this is ever NOT floor, do a dance. Otherwise, we should delete this?" + tile);
             if(!"roomFloor".equals(tile)) {
                 //adding for the rare occasion that a hall has been built directly over a top hallway...
                 Coordinate topCoordinate = new Coordinate(x+2,y+1);

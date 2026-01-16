@@ -30,6 +30,8 @@ public class Engine {
     UserMenu userMenu;
     public static boolean loadStartTime = false;
     Random r = new Random();
+    int entityX;
+    int entityY;
 
     // creates a world background when constructor is called
     public Engine() {
@@ -48,6 +50,7 @@ public class Engine {
         System.out.println("Engine.level set to: " + Engine.level);
         System.out.println("Flowers are: " + flowers + " and level is: " + level);
         setFlower();
+        setEntity();
         ter.renderFrame(world);
         startTime();
         userMove = new UserMovement(avatarX, avatarY, world, this);
@@ -133,14 +136,9 @@ public class Engine {
         }
     }
 
-    public void setLockedDoor() {
-        ArrayList<RandomPlaces.Coordinate> wallCoordinates =
-                RandomPlaces.placesMap
-                    .entrySet()
-                    .stream()
-                    .filter(entry -> "endMiddle".equals(entry.getValue()))
-                    .map(Map.Entry::getKey)
-                    .collect(Collectors.toCollection(ArrayList::new));
+        public void setLockedDoor() {
+        ArrayList<RandomPlaces.Coordinate> wallCoordinates = new ArrayList<>();
+        wallCoordinates = filterMap("endMiddle");
         Random r = new Random();
         RandomPlaces.Coordinate randomElement = wallCoordinates.get(r.nextInt(wallCoordinates.size()));
         lockedDoorX = randomElement.x;
@@ -150,22 +148,36 @@ public class Engine {
     }
 
     public void setFlower() {
+        ArrayList<RandomPlaces.Coordinate> roomFloorCoordinates = filterMap("roomFloor");
         int i = 1;
-        while ( i <= level) {
-            ArrayList<RandomPlaces.Coordinate> wallCoordinates =
-                    RandomPlaces.placesMap
-                            .entrySet()
-                            .stream()
-                            .filter(entry -> "roomFloor".equals(entry.getValue()))
-                            .map(Map.Entry::getKey)
-                            .collect(Collectors.toCollection(ArrayList::new));
+        while (i <= level) {
             Random r = new Random();
-            RandomPlaces.Coordinate randomElement = wallCoordinates.get(r.nextInt(wallCoordinates.size()));
+            RandomPlaces.Coordinate randomElement = roomFloorCoordinates.get(r.nextInt(roomFloorCoordinates.size()));
             world[randomElement.x][randomElement.y] = Tileset.FLOWER;
             RandomPlaces.placesMap.put(new RandomPlaces.Coordinate(randomElement.x, randomElement.y), "flower");
             i++;
         }
-        flowers=level;
+        flowers = level;
+    }
+
+    public void setEntity() {
+        ArrayList<RandomPlaces.Coordinate> floorCoordinates = filterMap("floor");
+        int lastElement = floorCoordinates.size()-1;
+        RandomPlaces.Coordinate set = floorCoordinates.get(lastElement);
+        entityX = set.x;
+        entityY = set.y;
+        world[entityX][entityY] = Tileset.WATER;
+
+    }
+
+    public ArrayList filterMap(String string) {
+
+        return RandomPlaces.placesMap
+                        .entrySet()
+                        .stream()
+                        .filter(entry -> string.equals(entry.getValue()))
+                        .map(Map.Entry::getKey)
+                        .collect(Collectors.toCollection(ArrayList::new));
     }
 
     public void nextLevel() {
@@ -203,4 +215,38 @@ public class Engine {
         StdDraw.textLeft(1, HEIGHT-3,"Time: " + timeRemaining);
         StdDraw.show();  // Make sure to show the updates
     }
+    //    public void setLockedDoor() {
+//        ArrayList<RandomPlaces.Coordinate> wallCoordinates =
+//                RandomPlaces.placesMap
+//                    .entrySet()
+//                    .stream()
+//                    .filter(entry -> "endMiddle".equals(entry.getValue()))
+//                    .map(Map.Entry::getKey)
+//                    .collect(Collectors.toCollection(ArrayList::new));
+//        Random r = new Random();
+//        RandomPlaces.Coordinate randomElement = wallCoordinates.get(r.nextInt(wallCoordinates.size()));
+//        lockedDoorX = randomElement.x;
+//        lockedDoorY = randomElement.y;
+//        world[lockedDoorX][lockedDoorY] = Tileset.LOCKED_DOOR;
+//        RandomPlaces.placesMap.put(new RandomPlaces.Coordinate(lockedDoorX, lockedDoorY), "lockedDoor");
+//    }
+
+//    public void setFlower() {
+//        int i = 1;
+//        while (i <= level) {
+//            ArrayList<RandomPlaces.Coordinate> floorCoordinates =
+//                    RandomPlaces.placesMap
+//                            .entrySet()
+//                            .stream()
+//                            .filter(entry -> "roomFloor".equals(entry.getValue()))
+//                            .map(Map.Entry::getKey)
+//                            .collect(Collectors.toCollection(ArrayList::new));
+//            Random r = new Random();
+//            RandomPlaces.Coordinate randomElement = floorCoordinates.get(r.nextInt(floorCoordinates.size()));
+//            world[randomElement.x][randomElement.y] = Tileset.FLOWER;
+//            RandomPlaces.placesMap.put(new RandomPlaces.Coordinate(randomElement.x, randomElement.y), "flower");
+//            i++;
+//        }
+//        flowers = level;
+//    }
 }
