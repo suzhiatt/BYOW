@@ -3,18 +3,15 @@ package byow.Core;
 import byow.TileEngine.TETile;
 import byow.TileEngine.Tileset;
 
-import java.util.Random;
-
-import static byow.Core.RandomPlaces.placesMap;
-
 public class UserMovement {
     private final Engine engine;
     //track position->check input-> validate move -> update files -> re-render -> repeat
-    private int currentX;
-    private int currentY;
+    public int currentX;
+    public int currentY;
     private boolean flowerEaten;
     private String value;
     TETile[][] tiles;
+    int count = 0;
 
     public UserMovement(int x, int y, TETile[][] world, Engine engine) {
         //create an object that receives the avatar's coordinates. It inputs them as the currentX and currentY. It then updates
@@ -25,7 +22,13 @@ public class UserMovement {
         this.engine = engine;
     }
 
+    public UserMovement(Engine engine) {
+        //used so I can access the currentX and currentY of the avatar?
+        this.engine = engine;
+    }
+
     public void processMove(char input) {
+        count++;
         int newX = currentX;
         int newY = currentY;
         boolean change;
@@ -60,6 +63,12 @@ public class UserMovement {
         if("flower".equals(string)) {
             flowerEaten = true;
             return true;
+        }
+        else if ("water".equals(string)) {
+            System.out.println("The avatar = replaceValue, so game should quit");
+            UserMenu userMenu = new UserMenu();
+            userMenu.eatenByEntity= true;
+            userMenu.processUserInput('Q');
         }
         else if ("floor".equals(string) || "roomFloor".equals(string)) {
             return true;

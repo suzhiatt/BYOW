@@ -12,6 +12,7 @@ public class UserMenu {
     public boolean newLevel = false;
     public boolean quitEarly = false;
     public boolean outOfTime = false;
+    public boolean eatenByEntity = false;
     private int menuWidth = 60;
     private int menuHeight = 30;
     public long userSeed;
@@ -64,6 +65,15 @@ public class UserMenu {
             StdDraw.pause(100);
             outOfTime=false;
         }
+        else if (eatenByEntity) {
+            StdDraw.setPenColor(Color.PINK);
+            Font fontSmall = new Font("Monaco", Font.BOLD, 20);
+            StdDraw.setFont(fontSmall);
+            StdDraw.textLeft(this.menuWidth / 2.6, this.menuHeight-15, "Ouch! No one likes being eaten!");
+            StdDraw.textLeft(this.menuWidth / 2.6, this.menuHeight-17, "Hope to see you again!");
+            StdDraw.pause(100);
+            eatenByEntity = false;
+        }
             else if (gameOver){
             StdDraw.setPenColor(Color.PINK);
             Font fontSmall = new Font("Monaco", Font.BOLD, 20);
@@ -105,8 +115,6 @@ public class UserMenu {
         StdDraw.clear(Color.BLACK);
     }
 
-
-
     //wait for user input, this is called by the engine class
     public char solicitUserInput() {
         //this loop keeps checking for input. Returns immediately when key is pressed. Continues waiting if no key pressed.
@@ -118,7 +126,6 @@ public class UserMenu {
             StdDraw.pause(20);
         }
     }
-
 
     public void receiveUserSeed() {
         StringBuilder sB = new StringBuilder();
@@ -174,9 +181,6 @@ public class UserMenu {
             drawFrame("Loading Saved Game!");
             StdDraw.pause(2000);
             engine.loadSavedGame();
-//            SaveGame save = new SaveGame();
-//            engine.world = save.loadSavedGame(engine);
-//            engine.loadWorld();
         } else {
             System.out.println("Please enter one of the three choices again...");
         }

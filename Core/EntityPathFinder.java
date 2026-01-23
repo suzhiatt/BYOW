@@ -1,33 +1,28 @@
 package byow.Core;
 
 import byow.TileEngine.TETile;
-import byow.TileEngine.Tileset;
-
 import java.util.Queue;
 import java.util.LinkedList;
 
 import java.util.*;
 
 public class EntityPathFinder {
-    private int[] edgeTo;
     TETile[][] world;
-    Engine engine;
-    public List path;
 
-
-    public EntityPathFinder(Engine engine, TETile[][] world) {
-        this.engine = engine;
+    public EntityPathFinder(TETile[][] world) {
         this.world = world;
     }
 
+    //method called by Entity class using coords of entity and avatar
     public List<RandomPlaces.Coordinate> findPath(int startX, int startY, int targetX, int targetY) {
-        //visited set- use HashSet of Coordinates
+
         Set<RandomPlaces.Coordinate> visited = new HashSet<>();
 
-        //parent map to reconstruct path
+        //reconstruct path once we find the target, return it as a map to follow
         Map<RandomPlaces.Coordinate, RandomPlaces.Coordinate> parent = new HashMap<>();
-        //Queue for BFS
+
         Queue<RandomPlaces.Coordinate> queue = new LinkedList<>();
+
 
         RandomPlaces.Coordinate start = new RandomPlaces.Coordinate(startX, startY);
         RandomPlaces.Coordinate target = new RandomPlaces.Coordinate(targetX, targetY);
@@ -38,14 +33,15 @@ public class EntityPathFinder {
         while (!queue.isEmpty()) {
             RandomPlaces.Coordinate current = queue.poll();
 
+            //if the current coord match the avatar's coord, then reconstruct path
             if(current.x == target.x && current.y == target.y) {
                 return reconstructPath(parent, start, target);
             }
 
-            //check all 4 neighbors
             int[] dx = {0, 0, -1, 1};
             int[] dy = {1, -1, 0, 0};
 
+            //for each neighbor, add to queue
             for (int i = 0; i < 4; i++) {
                 int newX = current.x + dx[i];
                 int newY = current.y + dy[i];
@@ -61,6 +57,7 @@ public class EntityPathFinder {
         return null;
     }
 
+    //checks to make sure the new coord. is within bounds and isn't a wall
     private boolean isValidAndWalkable(int x, int y) {
         if(x < 0 || x >= world.length || y < 0 || y >= world[0].length) {
             return false;
@@ -75,9 +72,9 @@ public class EntityPathFinder {
         List<RandomPlaces.Coordinate> path = new ArrayList<>();
         RandomPlaces.Coordinate current = target;
 
-        //work backwards from target to start
+        //begins at target, ends at start, adding to list backwards
         while (current != null) {
-            path.add(0, current); //add to front (reverse order)
+            path.add(0, current);
             current = parent.get(current);
         }
         return path;
