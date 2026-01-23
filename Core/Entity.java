@@ -34,10 +34,8 @@ public class Entity {
 
 //    Has a method to move along the path
     public void pathMovement() {
-        if(count > 5) {
+        if(count > 3) {
             count = 0;
-            System.out.println("Storing a new path");
-            System.out.println("The path size, when a new thing is called is: " + path.size());
             storePath();
         }
         if (path != null && pathIndex < path.size()) {

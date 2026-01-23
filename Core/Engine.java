@@ -48,8 +48,6 @@ public class Engine {
         avatarY = (generate.getFirstY() + 1);
         world[avatarX][avatarY] = Tileset.AVATAR;
         setLockedDoor();
-//        System.out.println("Engine.level set to: " + Engine.level);
-//        System.out.println("Flowers are: " + flowers + " and level is: " + level);
         setFlower();
         setEntity();
         ter.renderFrame(world);
@@ -95,6 +93,8 @@ public class Engine {
         ter.renderFrame(world);
         startTime();
         userMove = new UserMovement(avatarX, avatarY, world, this);
+        entity = new Entity(entityX, entityY, world, userMove);
+        entity.storePath();
         beginGamePlay();
     }
 

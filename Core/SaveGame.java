@@ -66,8 +66,8 @@ public class SaveGame {
                         case '❀':
                             tile = Tileset.FLOWER;
                             RandomPlaces.placesMap.put(new RandomPlaces.Coordinate(x,y), "flower");
-                            engine.avatarX = x;
-                            engine.avatarY = y;
+//                            engine.avatarX = x;
+//                            engine.avatarY = y;
                             break;
                         case '@':
                             tile = Tileset.AVATAR;
@@ -83,12 +83,20 @@ public class SaveGame {
                             tile = Tileset.FLOOR;
                             RandomPlaces.placesMap.put(new RandomPlaces.Coordinate(x,y), "floor");
                             break;
+                        case '≈':
+                            tile = Tileset.WATER;
+                            RandomPlaces.placesMap.put(new RandomPlaces.Coordinate(x,y), "water");
+                            engine.entityX=x;
+                            engine.entityY=y;
+                            break;
                         case ' ':
                             tile = Tileset.NOTHING;
                             break;
                         case '█':
                             tile = Tileset.LOCKED_DOOR;
                             RandomPlaces.placesMap.put(new RandomPlaces.Coordinate(x,y), "lockedDoor");
+                            engine.lockedDoorX=x;
+                            engine.lockedDoorY=y;
                             break;
                     }
                     world[x][y]= tile;
