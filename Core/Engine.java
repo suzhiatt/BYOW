@@ -9,7 +9,6 @@ import java.awt.*;
 import java.util.*;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.stream.Collectors;
 
 public class Engine {
@@ -142,8 +141,7 @@ public class Engine {
     }
 
     public void setLockedDoor() {
-        ArrayList<RandomPlaces.Coordinate> wallCoordinates = new ArrayList<>();
-        wallCoordinates = filterMap("endMiddle");
+        ArrayList<RandomPlaces.Coordinate> wallCoordinates = filterMap("endMiddle");
         Random r = new Random();
         RandomPlaces.Coordinate randomElement = wallCoordinates.get(r.nextInt(wallCoordinates.size()));
         lockedDoorX = randomElement.x;
@@ -213,7 +211,7 @@ public class Engine {
     }
 
     public void drawHUD() {
-        StdDraw.setPenColor(Color.WHITE);
+        StdDraw.setPenColor(Color.WHITE );
         StdDraw.setFont(new Font("Monaco", Font.BOLD, 16));
         StdDraw.textLeft(1, HEIGHT - 1, "Level: " + level);
         StdDraw.textLeft(1, HEIGHT - 2, "Flowers: " + flowers);
