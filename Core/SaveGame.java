@@ -66,8 +66,6 @@ public class SaveGame {
                         case '❀':
                             tile = Tileset.FLOWER;
                             RandomPlaces.placesMap.put(new RandomPlaces.Coordinate(x,y), "flower");
-//                            engine.avatarX = x;
-//                            engine.avatarY = y;
                             break;
                         case '@':
                             tile = Tileset.AVATAR;
