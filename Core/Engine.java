@@ -32,7 +32,6 @@ public class Engine {
     int entityX;
     int entityY;
     Entity entity;
-    boolean isKeyPressed = false;
 
     // creates a world background when constructor is called
     public Engine() {
@@ -60,12 +59,13 @@ public class Engine {
     }
 
     public void beginGamePlay() {
+        while(true) {
         checkTime();
         char input = getInput();
         if (input == ':') {
             char next = getInput();
             if (next != 'Q') {
-                beginGamePlay();
+                continue;
             } else {
                 SaveGame save = new SaveGame();
                 try {
@@ -73,7 +73,7 @@ public class Engine {
                     System.out.println("When the user is quitting, the amount of user moves has been...: " + userMove.count);
                     userMenu.quitEarly=true;
                     userMenu.processUserInput('Q');
-
+                    return;
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
@@ -89,15 +89,13 @@ public class Engine {
                 entity.highlightPath = true;
             }
             ter.renderFrame(world);
-            beginGamePlay();
         }
         else {
                 userMove.processMove(input);
                 entity.pathMovement();
                 ter.renderFrame(world);
                 drawHUD();
-                beginGamePlay();
-
+        }
         }
     }
 
@@ -113,16 +111,16 @@ public class Engine {
     }
 
     public char getInput() {
-        while (true) {
-            checkTime();
-            ter.renderFrame(world);  // Re-render
-            drawHUD();
-            if (StdDraw.hasNextKeyTyped()) {
-                return Character.toUpperCase(StdDraw.nextKeyTyped());
+            while (true) {
+                checkTime();
+                ter.renderFrame(world);  // Re-render
+                drawHUD();
+                if (StdDraw.hasNextKeyTyped()) {
+                    return Character.toUpperCase(StdDraw.nextKeyTyped());
+                }
+                //the program will make it check indefinitely, so this causes CPU to reduce usage while still responsive.
+                StdDraw.pause(20);
             }
-            //the program will make it check indefinitely, so this causes CPU to reduce usage while still responsive.
-            StdDraw.pause(20);
-        }
     }
 
     public void interactWithKeyboard() {

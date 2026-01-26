@@ -8,7 +8,7 @@ import java.util.Objects;
 import java.util.Random;
 
 public class RandomPlaces {
-    private Random r;
+    private final Random r;
     int totalHeight;
     int totalWidth;
     int wide;
