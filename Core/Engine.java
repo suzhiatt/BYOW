@@ -32,6 +32,7 @@ public class Engine {
     int entityX;
     int entityY;
     Entity entity;
+    boolean isKeyPressed = false;
 
     // creates a world background when constructor is called
     public Engine() {
@@ -77,12 +78,26 @@ public class Engine {
                     throw new RuntimeException(e);
                 }
             }
-        } else {
-            userMove.processMove(input);
-            entity.pathMovement();
+        }
+        if (input == 'R') {
+            if (entity.highlightPath) {
+                System.out.println("Made it to line 87");
+                entity.highlightPath();
+                entity.highlightPath = false;
+            } else {
+                entity.highlightPath();
+                entity.highlightPath = true;
+            }
             ter.renderFrame(world);
-            drawHUD();
             beginGamePlay();
+        }
+        else {
+                userMove.processMove(input);
+                entity.pathMovement();
+                ter.renderFrame(world);
+                drawHUD();
+                beginGamePlay();
+
         }
     }
 
@@ -173,7 +188,7 @@ public class Engine {
         world[entityX][entityY] = Tileset.WATER;
     }
 
-    public ArrayList filterMap(String string) {
+    public ArrayList<RandomPlaces.Coordinate> filterMap(String string) {
 
         return RandomPlaces.placesMap
                         .entrySet()

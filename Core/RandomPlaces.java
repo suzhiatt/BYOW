@@ -47,8 +47,6 @@ public class RandomPlaces {
         }
     }
 
-    public RandomPlaces() {}
-
     public RandomPlaces(int width, int height, long seed) {
         placesMap.clear();
         this.r = new Random(seed);
