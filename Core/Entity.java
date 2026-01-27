@@ -17,7 +17,7 @@ public class Entity {
     UserMovement userMovement;
     RandomPlaces.Coordinate next;
     String replaceValue = "floor";
-    int count = 5;
+    int count = 0;
     boolean highlightPath = true;
     List<RandomPlaces.Coordinate> highlightedPathList;
 
@@ -49,14 +49,20 @@ public class Entity {
             highlightedPathList = new ArrayList<>(path.subList(entityIndex+1, avatarIndex));
 
             for(RandomPlaces.Coordinate coord : highlightedPathList) {
-            world[coord.x][coord.y] = Tileset.FLOORS;
+                if(world[coord.x][coord.y] != Tileset.FLOWER) {
+                    world[coord.x][coord.y] = Tileset.FLOORS;
+                    }
                 }
             }
 
         else {
-            for(RandomPlaces.Coordinate coord : highlightedPathList) {
-                if((coord.x != currentX || coord.y != currentY) && (coord.x != userMovement.currentX || coord.y != userMovement.currentY)) {
-                    world[coord.x][coord.y] = Tileset.FLOOR;
+            if (highlightedPathList != null) {
+                for (RandomPlaces.Coordinate coord : highlightedPathList) {
+                    if ((coord.x != currentX || coord.y != currentY) && (coord.x != userMovement.currentX || coord.y != userMovement.currentY)) {
+                        if (world[coord.x][coord.y] != Tileset.FLOWER) {
+                            world[coord.x][coord.y] = Tileset.FLOOR;
+                        }
+                    }
                 }
             }
         }
@@ -64,6 +70,20 @@ public class Entity {
 
 //    Has a method to move along the path
     public void pathMovement() {
+        if(!highlightPath) {
+            //restore old highlights
+            System.out.println("highlightPath called 1st time");
+            highlightPath();
+            //clear old lists
+            if(highlightedPathList!=null) {
+                highlightedPathList.clear();
+            }
+            //highlightPath();
+            highlightPath = true;
+            highlightPath();
+            System.out.println("highlightPath called 2nd time");
+            highlightPath = false;
+        }
         if(count > 3) {
             count = 0;
             storePath();
@@ -96,6 +116,7 @@ public class Entity {
             count++;
         }
         else {
+            System.out.println("Made it to the else on line 117");
             count = 0;
             storePath();
         }

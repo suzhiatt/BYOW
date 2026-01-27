@@ -64,12 +64,10 @@ public class Engine {
         char input = getInput();
         if (input == ':') {
             char next = getInput();
-            if (next != 'Q') {
-                continue;
-            } else {
+            if (next == 'Q')  {
                 SaveGame save = new SaveGame();
                 try {
-                    save.saveGame(world, level);
+                    save.saveGame(world);
                     System.out.println("When the user is quitting, the amount of user moves has been...: " + userMove.count);
                     userMenu.quitEarly=true;
                     userMenu.processUserInput('Q');
@@ -81,7 +79,6 @@ public class Engine {
         }
         if (input == 'R') {
             if (entity.highlightPath) {
-                System.out.println("Made it to line 87");
                 entity.highlightPath();
                 entity.highlightPath = false;
             } else {

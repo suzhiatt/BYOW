@@ -16,7 +16,7 @@ public class SaveGame {
 
     public SaveGame() {}
 
-    public void saveGame(TETile[][] world, int level) throws IOException {
+    public void saveGame(TETile[][] world) throws IOException {
         //makes a copy of the current world as saved in the text file
         File file = new File("savedGame.txt");
         FileWriter fr = new FileWriter(file, false);
@@ -77,7 +77,7 @@ public class SaveGame {
                             tile = Tileset.WALL;
                             RandomPlaces.placesMap.put(new RandomPlaces.Coordinate(x,y), "wall");
                             break;
-                        case '·':
+                        case '·', '.':
                             tile = Tileset.FLOOR;
                             RandomPlaces.placesMap.put(new RandomPlaces.Coordinate(x,y), "floor");
                             break;
