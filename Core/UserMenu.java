@@ -183,6 +183,8 @@ public class UserMenu {
             engine.loadSavedGame();
         } else {
             System.out.println("Please enter one of the three choices again...");
+            welcomeFrame = true;
+            engine.interactWithKeyboard();
         }
     }
 }

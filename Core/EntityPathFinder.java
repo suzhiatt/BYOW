@@ -63,7 +63,7 @@ public class EntityPathFinder {
             return false;
         }
         String tile = RandomPlaces.placesMap.get(new RandomPlaces.Coordinate(x, y));
-        return "floor".equals(tile) || "roomFloor".equals(tile) || "flower".equals(tile) || "avatar".equals(tile);
+        return !"wall".equals(tile);
     }
 
     private List<RandomPlaces.Coordinate> reconstructPath(Map<RandomPlaces.Coordinate, RandomPlaces.Coordinate> parent,

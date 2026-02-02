@@ -22,10 +22,10 @@ public class UserMovement {
         this.engine = engine;
     }
 
-    public UserMovement(Engine engine) {
-        //used so I can access the currentX and currentY of the avatar?
-        this.engine = engine;
-    }
+//    public UserMovement(Engine engine) {
+//        //used so I can access the currentX and currentY of the avatar?
+//        this.engine = engine;
+//    }
 
     public void processMove(char input) {
         count++;
