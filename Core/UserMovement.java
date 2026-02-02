@@ -45,12 +45,15 @@ public class UserMovement {
         change = checkInput(value);
 
         if(change) {
-            // Update hashmap
-            RandomPlaces.placesMap.put(new RandomPlaces.Coordinate(newX, newY), "floor");
-            // Update tiles
+            // Update hashmap at old position
+            RandomPlaces.placesMap.put(new RandomPlaces.Coordinate(currentX, currentY), "floor");
+            //update tiles at old position
             tiles[currentX][currentY] = Tileset.FLOOR;
+            //move to new position
             currentX = newX;
             currentY = newY;
+            // Update tiles
+            RandomPlaces.placesMap.put(new RandomPlaces.Coordinate(currentX, currentY), "avatar");
             tiles[currentX][currentY] = Tileset.AVATAR;
             if(flowerEaten) {
                 engine.flowers--;
@@ -60,12 +63,17 @@ public class UserMovement {
     }
 
     private boolean checkInput (String string) {
+        // If hashmap says something unexpected, check the actual tile
+        System.out.println("value is this string: " + string);
+        if (string == null || "water".equals(string)) {
+            // Check actual tile in world array
+            // If it's FLOOR, allow movement
+        }
         if("flower".equals(string)) {
             flowerEaten = true;
             return true;
         }
         else if ("water".equals(string)) {
-            System.out.println("The avatar = replaceValue, so game should quit");
             UserMenu userMenu = new UserMenu();
             userMenu.eatenByEntity= true;
             userMenu.processUserInput('Q');

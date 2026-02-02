@@ -16,7 +16,7 @@ public class Entity {
     public int pathIndex;
     UserMovement userMovement;
     RandomPlaces.Coordinate next;
-    String replaceValue = "floor";
+    String replaceValue;
     int count = 0;
     boolean highlightPath = true;
     List<RandomPlaces.Coordinate> highlightedPathList;
@@ -90,7 +90,11 @@ public class Entity {
         }
         if (path != null && pathIndex < path.size()) {
             next = path.get(pathIndex);
-                //replace current tile
+
+            if(replaceValue == null) {
+                replaceValue = "floor";
+            }
+                //restore the OLD position (using placeValue from previous iteration)
                 RandomPlaces.placesMap.put(new RandomPlaces.Coordinate(currentX, currentY), replaceValue);
 
                 if("flower".equals(replaceValue)) {
@@ -99,19 +103,28 @@ public class Entity {
                 else {
                     world[currentX][currentY] = Tileset.FLOOR;
                 }
-                currentX=next.x;
-                currentY=next.y;
-                if(world[next.x][next.y] == Tileset.AVATAR) {
+
+            //save what is at new position before moving there (for next iteration's restore)
+                replaceValue = RandomPlaces.getValue(new RandomPlaces.Coordinate(next.x, next.y));
+                if (replaceValue == null) {
+                    replaceValue = "floor";
+                }
+                //move into new position
+                currentX = next.x;
+                currentY = next.y;
+
+                //check for collision
+                if(world[currentX][currentY] == Tileset.AVATAR) {
                     System.out.println("The avatar is eaten by water, from the Entity class, so game should quit");
                     UserMenu userMenu = new UserMenu();
                     userMenu.eatenByEntity= true;
                     userMenu.processUserInput('Q');
                 }
-                //hold next tile string
-                replaceValue = RandomPlaces.getValue(new RandomPlaces.Coordinate(next.x, next.y));
-                //replace next tile with Entity
-                RandomPlaces.placesMap.put(new RandomPlaces.Coordinate(next.x, next.y), "water");
-                world[next.x][next.y]= Tileset.WATER;
+
+                //place entity at new position
+                RandomPlaces.placesMap.put(new RandomPlaces.Coordinate(currentX, currentY), "water");
+                world[currentX][currentY]= Tileset.WATER;
+
             pathIndex++;
             count++;
         }

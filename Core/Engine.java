@@ -226,7 +226,8 @@ public class Engine {
         StdDraw.textLeft(1, HEIGHT - 1, "Level: " + level);
         StdDraw.textLeft(1, HEIGHT - 2, "Flowers: " + flowers);
         StdDraw.textLeft(1, HEIGHT-3,"Time: " + timeRemaining);
-        StdDraw.textRight(40, HEIGHT-1,"To quit, press: ':Q' at any time!");
+        StdDraw.textRight(40, HEIGHT-1,"Press 'R' to turn on/off entity path");
+        StdDraw.textRight(40, HEIGHT-49,"To quit, press: ':Q' at any time!");
         StdDraw.show();  // Make sure to show the updates
     }
 }
