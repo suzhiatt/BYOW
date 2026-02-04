@@ -180,6 +180,7 @@ public class Engine {
         entityX = set.x;
         entityY = set.y;
         RandomPlaces.placesMap.put(new RandomPlaces.Coordinate(entityX, entityY), "entity");
+        System.out.println("Entity is set at x: " + entityY + "and y is " + entityY);
         world[entityX][entityY] = Tileset.WATER;
     }
 

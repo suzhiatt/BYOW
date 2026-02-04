@@ -46,7 +46,7 @@ public class UserMenu {
             StdDraw.textLeft(menuWidth/2.25,this.menuHeight-19, "(Q)uit Game");
             welcomeFrame = false;
         }
-            else if (quitEarly) {
+        else if (quitEarly) {
             StdDraw.setPenColor(Color.PINK);
             Font fontSmall = new Font("Monaco", Font.BOLD, 20);
             StdDraw.setFont(fontSmall);
@@ -56,7 +56,7 @@ public class UserMenu {
             StdDraw.pause(100);
             quitEarly = false;
         }
-            else if(outOfTime) {
+        else if(outOfTime) {
             StdDraw.setPenColor(Color.PINK);
             Font fontSmall = new Font("Monaco", Font.BOLD, 20);
             StdDraw.setFont(fontSmall);

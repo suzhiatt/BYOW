@@ -22,11 +22,6 @@ public class UserMovement {
         this.engine = engine;
     }
 
-//    public UserMovement(Engine engine) {
-//        //used so I can access the currentX and currentY of the avatar?
-//        this.engine = engine;
-//    }
-
     public void processMove(char input) {
         count++;
         int newX = currentX;
@@ -64,7 +59,6 @@ public class UserMovement {
 
     private boolean checkInput (String string) {
         // If hashmap says something unexpected, check the actual tile
-        System.out.println("value is this string: " + string);
         if (string == null || "water".equals(string)) {
             // Check actual tile in world array
             // If it's FLOOR, allow movement

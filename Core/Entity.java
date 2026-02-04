@@ -72,7 +72,6 @@ public class Entity {
     public void pathMovement() {
         if(!highlightPath) {
             //restore old highlights
-            System.out.println("highlightPath called 1st time");
             highlightPath();
             //clear old lists
             if(highlightedPathList!=null) {
@@ -81,7 +80,6 @@ public class Entity {
             //highlightPath();
             highlightPath = true;
             highlightPath();
-            System.out.println("highlightPath called 2nd time");
             highlightPath = false;
         }
         if(count > 3) {
@@ -104,11 +102,8 @@ public class Entity {
                     world[currentX][currentY] = Tileset.FLOOR;
                 }
 
-            //save what is at new position before moving there (for next iteration's restore)
+            //save what is at new position before moving there...
                 replaceValue = RandomPlaces.getValue(new RandomPlaces.Coordinate(next.x, next.y));
-                if (replaceValue == null) {
-                    replaceValue = "floor";
-                }
                 //move into new position
                 currentX = next.x;
                 currentY = next.y;
@@ -124,7 +119,6 @@ public class Entity {
                 //place entity at new position
                 RandomPlaces.placesMap.put(new RandomPlaces.Coordinate(currentX, currentY), "water");
                 world[currentX][currentY]= Tileset.WATER;
-
             pathIndex++;
             count++;
         }
