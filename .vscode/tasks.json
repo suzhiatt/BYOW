@@ -1,0 +1,28 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Compile BYOW",
+      "type": "shell",
+      "command": "export JAVA_HOME=\"/Library/Java/JavaVirtualMachines/temurin-22.jdk/Contents/Home\" && export PATH=\"$JAVA_HOME/bin:$PATH\" && mkdir -p bin && javac -proc:none -cp \".idea/libraries/algs4 (2).jar\" -d bin $(find byow -name '*.java') && echo COMPILE_OK",
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Run BYOW",
+      "type": "shell",
+      "command": "${workspaceFolder}/run.sh",
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated"
+      },
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      }
+    }
+  ]
+}

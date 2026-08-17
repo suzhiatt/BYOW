@@ -1,0 +1,19 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "java",
+      "name": "Launch BYOW Main",
+      "request": "launch",
+      "mainClass": "byow.Core.Main",
+      "projectName": "byow",
+      "cwd": "${workspaceFolder}",
+      "classPaths": [
+        "${workspaceFolder}/bin",
+        "${workspaceFolder}/.idea/libraries/algs4 (2).jar"
+      ],
+      "modulePaths": [],
+      "preLaunchTask": "Compile BYOW"
+    }
+  ]
+}

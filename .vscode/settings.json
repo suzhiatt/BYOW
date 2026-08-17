@@ -1,0 +1,15 @@
+{
+  "java.project.outputPath": "bin",
+  "java.project.referencedLibraries": [
+    ".idea/libraries/algs4 (2).jar"
+  ],
+  "java.import.exclusions": [
+    "**/out/**",
+    "**/bin/**",
+    "**/.idea/**"
+  ],
+  "java.configuration.updateBuildConfiguration": "disabled",
+  "java.debug.settings.forceBuildBeforeLaunch": false,
+  "java.import.maven.enabled": false,
+  "java.import.gradle.enabled": false
+}

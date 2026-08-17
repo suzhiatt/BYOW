@@ -1,13 +1,13 @@
 <component name="libraryTable">
   <library name="library-sp23-main">
     <CLASSES>
-      <root url="file://$PROJECT_DIR$/../../../library-sp23-main" />
+      <root url="file://$USER_HOME$/Downloads/library-sp23-main" />
     </CLASSES>
     <JAVADOC />
     <SOURCES>
-      <root url="file://$PROJECT_DIR$/../../../library-sp23-main" />
+      <root url="file://$USER_HOME$/Downloads/library-sp23-main" />
     </SOURCES>
-    <jarDirectory url="file://$PROJECT_DIR$/../../../library-sp23-main" recursive="false" />
-    <jarDirectory url="file://$PROJECT_DIR$/../../../library-sp23-main" recursive="false" type="SOURCES" />
+    <jarDirectory url="file://$USER_HOME$/Downloads/library-sp23-main" recursive="false" />
+    <jarDirectory url="file://$USER_HOME$/Downloads/library-sp23-main" recursive="false" type="SOURCES" />
   </library>
 </component>
