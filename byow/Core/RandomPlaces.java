@@ -58,8 +58,6 @@ public class RandomPlaces {
                 tiles[x][y] = Tileset.NOTHING;
             }
         }
-        //calls a random x, y to being the room. The bound is between 1 and 5 so it begins in the bottom left corner of world.
-        //I noticed that with the world beginning at x or y = 0, then it only adds one hallway, and can't generate a Room after that.
         firstX = r.nextInt(4)+1;
         firstY = r.nextInt(4)+1;
         addRoomFromTopHallway(firstX,firstY);
@@ -85,25 +83,16 @@ public class RandomPlaces {
                             String tile = placesMap.get(coordinate);
                             if ("endMiddle".equals(tile) || "floor".equals(tile) || "roomFloor".equals(tile)) {
                                 setFloor(i, j, "roomFloor");
-//                                tiles[i][j] = Tileset.FLOOR;
-//                                placesMap.put(coordinate, "roomFloor");
                             }
                             else {
                                 // Only place wall if we haven't found a floor or endMiddle
                                 setWall(i,j);
-//                                tiles[i][j] = Tileset.WALL;
-//                                placesMap.put(coordinate, "wall");
                                 }
                         } else {
-                            //this overrides if there is already a hallway there, right? It would just enlarge the hallway.
                             setFloor(i,j,"roomFloor");
-//                            tiles[i][j] = Tileset.FLOOR;
-//                            placesMap.put(coordinate, "roomFloor");
                         }
                         if (isLastPosition(i, j)) {
                             setWall(i,j);
-//                            tiles[i][j] = Tileset.WALL;
-//                            placesMap.put(coordinate, "wall");
                         }
                     }
                     built = true;
@@ -130,7 +119,6 @@ public class RandomPlaces {
             callHallways(x,y);
         }
         else {
-//            Coordinate coordinate = new Coordinate(x+2,y);
             String tile = placesMap.get(new Coordinate(x+2,y));
             if(!"roomFloor".equals(tile)) {
                 //adding for the rare occasion that a hall has been built directly over a top hallway...
@@ -138,8 +126,6 @@ public class RandomPlaces {
                 String topTile = placesMap.get(topCoordinate);
                 if(!"floor".equals(topTile)) {
                     setWall(x+2, y);
-//                    tiles[x+2][y] = Tileset.WALL;
-//                    placesMap.put(new Coordinate(x+2,y), "wall");
                 }
             }
         }
@@ -186,12 +172,9 @@ public class RandomPlaces {
                             }
                         }
                     } else {
-//                        System.out.println("We are checking to add a floor as part of addTopHall. What it will be replacing is..." + tile + "Tiles is at coord: " + i + ", " + j);
                         //checks to make sure that we are not replacing a roomFloor tile with a floor tile.
                         if (!"roomFloor".equals(tile)) {
                             setFloor(i,j,"floor");
-//                            tiles[i][j] = Tileset.FLOOR;
-//                            placesMap.put(coordinate, "floor");
                         }
                     }
                 }
@@ -207,11 +190,7 @@ public class RandomPlaces {
                     placesMap.put(new Coordinate(x-1, y + hallLength), "wall");
                     tiles[x+1][y + hallLength] = Tileset.WALL;
                     placesMap.put(new Coordinate(x+1, y + hallLength), "wall");
-//                    setWall(x-1, y + hallLength);
-//                    setEndMiddle(x,y+hallLength);
-//                    setWall(x+1, y + hallLength);
                 } else {
-//                    Coordinate topCoordinate = new Coordinate(x, y + hallLength);
                     String tile = placesMap.get(new Coordinate(x, y + hallLength));
                     System.out.println("*** Line 220, we were going to put the y+hallL wall but there is a " + tile);
                     if ("wall".equals(tile)) {
@@ -222,30 +201,19 @@ public class RandomPlaces {
                             setFloor(x, y+hallLength, "floor");
                         }
                         else if ("wall".equals(topTile)) {
-                            Coordinate leftTopCoord = new Coordinate(x-1, y + hallLength);
-                            Coordinate rightTopCoord = new Coordinate(x+1, y + hallLength);
-                            if("roomFloor".equals(placesMap.get(new Coordinate(x-1, y + hallLength))) || placesMap.get(rightTopCoord) == null) {
+                            if("roomFloor".equals(placesMap.get(new Coordinate(x-1, y + hallLength))) || placesMap.get(new Coordinate(x+1, y + hallLength)) == null) {
                                 //we encountered a room wall on the right side, so we need to end the hallway in three tiles...
                                 setWall(x-1,y+hallLength);
                                 setWall(x,y+hallLength);
                                 setWall(x+1, y+hallLength);
-//                                tiles[x - 1][y + hallLength] = Tileset.WALL;
-//                                placesMap.put(new Coordinate(x-1,y+hallLength), "wall");
-//                                tiles[x][y + hallLength] = Tileset.WALL;
-//                                placesMap.put(new Coordinate(x,y+hallLength), "wall");
-//                                tiles[x + 1][y + hallLength] = Tileset.WALL;
-//                                placesMap.put(new Coordinate(x+1,y+hallLength), "wall");
                             }
                         }
                     }
                     if("floor".equals(tile)) {
                         Coordinate aboveTopCoordinate = new Coordinate(x+1, y + hallLength + 1);
                         String aboveTopTile = placesMap.get(aboveTopCoordinate);
-                        System.out.println("*** Line 232, aboveTopCoord is " + aboveTopTile);
                         if("null".equals(aboveTopTile)) {
                             setWall(x+1,y + hallLength + 1);
-//                            tiles[x+1][y + hallLength + 1] = Tileset.MOUNTAIN;
-//                            placesMap.put(aboveTopCoordinate, "wall");
                         }
                     }
                 }
@@ -257,7 +225,6 @@ public class RandomPlaces {
     private void addRightHallway(int x, int y) {
         int rightHallLength = r.nextInt(10 - 3 + 1) + 3;
         if (isValidPosition(x + rightHallLength, y + 1) && isValidPosition(x, y)) {
-            // Start with the entrance
             tiles[x][y] = Tileset.FLOOR;
             placesMap.put(new Coordinate(x, y), "floor");
             
@@ -272,7 +239,6 @@ public class RandomPlaces {
                         }
                         else {
                             String tile = placesMap.get(coordinate);
-                            //coordinate options: floor, roomFloor, wall, endMiddle
                             if("endMiddle".equals(tile) && i == (x-1)) {
                                 tiles[i][j] = Tileset.FLOOR;
                                 placesMap.put(coordinate, "floor");
@@ -294,15 +260,8 @@ public class RandomPlaces {
                 addRoomFromRight(x + rightHallLength, y - 1);
             } else {
                 setWall(x + rightHallLength,y+1);
-//                tiles[x + rightHallLength - 1][y + 1] = Tileset.WALL;
-//                placesMap.put(new Coordinate(x + rightHallLength - 1, y + 1), "wall");
                 setEndMiddle(x + rightHallLength, y);
-//                tiles[x + rightHallLength - 1][y] = Tileset.WALL;
-//                placesMap.put(new Coordinate(x + rightHallLength - 1, y), "endMiddle");
                 setWall(x + rightHallLength, y-1);
-//                tiles[x + rightHallLength - 1][y - 1] = Tileset.WALL;
-//                placesMap.put(new Coordinate(x + rightHallLength - 1, y - 1), "wall");
-//            }
             }
         }
     }

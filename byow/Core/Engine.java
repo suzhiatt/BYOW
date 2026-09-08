@@ -70,7 +70,6 @@ public class Engine {
                 SaveGame save = new SaveGame();
                 try {
                     save.saveGame(world);
-                    System.out.println("When the user is quitting, the amount of user moves has been...: " + userMove.count);
                     userMenu.quitEarly=true;
                     userMenu.processUserInput('Q');
                     return;
@@ -186,12 +185,10 @@ public class Engine {
         entityX = set.x;
         entityY = set.y;
         RandomPlaces.placesMap.put(new RandomPlaces.Coordinate(entityX, entityY), "entity");
-        System.out.println("Entity is set at x: " + entityY + "and y is " + entityY);
         world[entityX][entityY] = Tileset.WATER;
     }
 
     public ArrayList<RandomPlaces.Coordinate> filterMap(String string) {
-
         return RandomPlaces.placesMap
                         .entrySet()
                         .stream()
