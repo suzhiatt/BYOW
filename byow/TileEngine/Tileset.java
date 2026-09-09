@@ -31,7 +31,7 @@ public class Tileset {
             "locked door");
     public static final TETile UNLOCKED_DOOR = new TETile('▢', Color.orange, Color.black,
             "unlocked door");
-    public static final TETile SAND = new TETile('▒', Color.yellow, Color.black, "sand");
+    public static final TETile SAND = new TETile('▒', Color.red, Color.black, "sand");
     public static final TETile MOUNTAIN = new TETile('▲', Color.gray, Color.black, "mountain");
     public static final TETile TREE = new TETile('♠', Color.green, Color.black, "tree");
 }

@@ -51,7 +51,7 @@ public class UserMovement {
             RandomPlaces.placesMap.put(new RandomPlaces.Coordinate(currentX, currentY), "avatar");
             tiles[currentX][currentY] = Tileset.AVATAR;
             if(flowerEaten) {
-                engine.flowers--;
+                Engine.flowers--;
                 flowerEaten=false;
             }
         }

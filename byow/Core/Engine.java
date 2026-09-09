@@ -224,6 +224,14 @@ public class Engine {
         System.out.println("For level: " + level + " This is the seed: " + seed);
     }
 
+    public void userEaten() {
+        ter.renderFrame(world);
+        drawHUD();
+        StdDraw.pause(1000);
+        userMenu.eatenByEntity = true;
+        userMenu.processUserInput('Q');
+    }
+
     public void drawHUD() {
         StdDraw.setPenColor(Color.WHITE);
         StdDraw.setFont(new Font("Monaco", Font.BOLD, 16));

@@ -77,8 +77,8 @@ public class UserMenu {
             StdDraw.setPenColor(Color.PINK);
             Font fontSmall = new Font("Monaco", Font.BOLD, 20);
             StdDraw.setFont(fontSmall);
-            StdDraw.textLeft(this.menuWidth / 2.6, this.menuHeight-15, "We were about to have fun!");
-            StdDraw.textLeft(this.menuWidth / 2.6, this.menuHeight-17, "Hope to see you again!");
+            StdDraw.textLeft(this.menuWidth / 2.6, this.menuHeight-1, "We were about to have fun!");
+            StdDraw.textLeft(this.menuWidth / 2.6, this.menuHeight-1, "Hope to see you again!");
             StdDraw.pause(100);
             gameOver = false;
         }
@@ -141,6 +141,10 @@ public class UserMenu {
                         processUserInput('Q');
                     }
                     else if (curr == 'S') {
+                        if (sB.length() == 0) {
+                            drawFrame("Enter a number first, then press S");
+                            continue;
+                        }
                                 userSeed = Long.parseLong(String.valueOf(sB));
                                 newGame=true;
                                 drawFrame("Use 'W', 'A', 'S', 'D' to move");

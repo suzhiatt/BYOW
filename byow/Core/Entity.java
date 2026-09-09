@@ -110,9 +110,12 @@ public class Entity {
 
                 //check for collision
                 if(world[currentX][currentY] == Tileset.AVATAR) {
-                    System.out.println("The avatar is eaten by water, from the Entity class, so game should quit");
-                    userMovement.engine.userMenu.eatenByEntity = true;
-                    userMovement.engine.userMenu.processUserInput('Q');
+                    world[currentX][currentY] = Tileset.SAND;
+                    userMovement.engine.userEaten();
+                    //renderFrame
+                    //StdDraw.pause(3000)
+                    // userMovement.engine.userMenu.eatenByEntity = true;
+                    // userMovement.engine.userMenu.processUserInput('Q');
                 }
 
                 //place entity at new position
@@ -122,7 +125,6 @@ public class Entity {
             count++;
         }
         else {
-            System.out.println("Made it to the else on line 117");
             count = 0;
             storePath();
         }

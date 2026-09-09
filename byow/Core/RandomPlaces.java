@@ -66,8 +66,8 @@ public class RandomPlaces {
     public void generateRooms(int x, int y) {
         built = false;
         //width and height of room generated
-        wide = r.nextInt(11 - 4 + 1) + 4;
-        high = r.nextInt(11 - 4 + 1) + 4;
+        wide = r.nextInt(10 - 4 + 1) + 4;
+        high = r.nextInt(10 - 4 + 1) + 4;
 
         boolean isValid = (isValidPosition(x, y + high) && isValidPosition(x + wide, y + high) && isValidPosition(x + wide, y) && isValidPosition(x, y));
 
@@ -122,9 +122,7 @@ public class RandomPlaces {
             String tile = placesMap.get(new Coordinate(x+2,y));
             if(!"roomFloor".equals(tile)) {
                 //adding for the rare occasion that a hall has been built directly over a top hallway...
-                Coordinate topCoordinate = new Coordinate(x+2,y+1);
-                String topTile = placesMap.get(topCoordinate);
-                if(!"floor".equals(topTile)) {
+                if(!"floor".equals(placesMap.get(new Coordinate(x+2,y+1)))) {
                     setWall(x+2, y);
                 }
             }
@@ -192,11 +190,9 @@ public class RandomPlaces {
                     placesMap.put(new Coordinate(x+1, y + hallLength), "wall");
                 } else {
                     String tile = placesMap.get(new Coordinate(x, y + hallLength));
-                    System.out.println("*** Line 220, we were going to put the y+hallL wall but there is a " + tile);
                     if ("wall".equals(tile)) {
                         Coordinate aboveTopCoordinate = new Coordinate(x, y + hallLength + 1);
                         String topTile = placesMap.get(aboveTopCoordinate);
-                        System.out.println("*** Line 224, aboveTopCoord is " + topTile);
                         if ("floor".equals(topTile) || "roomFloor".equals(topTile)) {
                             setFloor(x, y+hallLength, "floor");
                         }
