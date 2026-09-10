@@ -115,6 +115,9 @@ public class RandomPlaces {
 
     private void addRoomFromTopHallway(int x, int y) {
         generateRooms(x,y);
+        if(!built) {
+            generateRooms(x,y);
+        }
         if(built) {
             callHallways(x,y);
         }
@@ -131,6 +134,9 @@ public class RandomPlaces {
 
     private void addRoomFromRight(int x, int y) {
         generateRooms(x,y);
+        if(!built) {
+            generateRooms(x,y);
+        }
         if(built) {
             callHallways(x,y);
         }
@@ -147,7 +153,7 @@ public class RandomPlaces {
     }
 
     private void addTopHallway(int x, int y) {
-        hallLength = r.nextInt(10 + 1) + 3;
+        hallLength = r.nextInt(8 + 1) + 3;
         if (isValidPosition(x, y + hallLength) && isValidPosition(x, y)) {
             //replaces the wall tile with floor tile from generateRoom
             setFloor(x, y, "floor");
@@ -304,7 +310,6 @@ public class RandomPlaces {
         tiles[x][y] = Tileset.WALL;
         placesMap.put(new Coordinate(x,y), "endMiddle");
     }
-
 }
 
 

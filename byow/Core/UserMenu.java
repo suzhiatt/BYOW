@@ -59,8 +59,8 @@ public class UserMenu {
             StdDraw.setPenColor(Color.PINK);
             Font fontSmall = new Font("Monaco", Font.BOLD, 20);
             StdDraw.setFont(fontSmall);
-            StdDraw.textLeft(this.menuWidth / 2.6, this.menuHeight-15, "Gotta be faster next time!");
-            StdDraw.textLeft(this.menuWidth / 2.6, this.menuHeight-17, "Hope to see you again!");
+            StdDraw.textLeft(this.menuWidth / 4, this.menuHeight-1, "Gotta be faster next time!");
+            StdDraw.textLeft(this.menuWidth / 4, this.menuHeight-3, "Hope to see you again!");
             StdDraw.pause(100);
             outOfTime=false;
         }
@@ -68,8 +68,8 @@ public class UserMenu {
             StdDraw.setPenColor(Color.PINK);
             Font fontSmall = new Font("Monaco", Font.BOLD, 20);
             StdDraw.setFont(fontSmall);
-            StdDraw.textLeft(this.menuWidth / 2.6, this.menuHeight-15, "Ouch! No one likes being eaten!");
-            StdDraw.textLeft(this.menuWidth / 2.6, this.menuHeight-17, "Hope to see you again!");
+            StdDraw.textLeft(this.menuWidth / 4, this.menuHeight-1, "Ouch! No one likes being eaten!");
+            StdDraw.textLeft(this.menuWidth / 4, this.menuHeight-3, "Hope to see you again!");
             StdDraw.pause(100);
             eatenByEntity = false;
         }
@@ -77,8 +77,8 @@ public class UserMenu {
             StdDraw.setPenColor(Color.PINK);
             Font fontSmall = new Font("Monaco", Font.BOLD, 20);
             StdDraw.setFont(fontSmall);
-            StdDraw.textLeft(this.menuWidth / 2.6, this.menuHeight-1, "We were about to have fun!");
-            StdDraw.textLeft(this.menuWidth / 2.6, this.menuHeight-1, "Hope to see you again!");
+            StdDraw.textLeft(this.menuWidth / 4, this.menuHeight-1, "We were about to have fun!");
+            StdDraw.textLeft(this.menuWidth / 4, this.menuHeight-3, "Hope to see you again!");
             StdDraw.pause(100);
             gameOver = false;
         }
@@ -105,8 +105,8 @@ public class UserMenu {
             StdDraw.setPenColor(Color.PINK);
             Font fontSmall = new Font("Monaco", Font.BOLD, 20);
             StdDraw.setFont(fontSmall);
-            StdDraw.textLeft(this.menuWidth / 3.5, this.menuHeight-1, "Congrats on passing the level!");
-            StdDraw.textLeft(this.menuWidth / 3.5, this.menuHeight-3, "You're about to begin level " + Engine.level);
+            StdDraw.textLeft(this.menuWidth / 4, this.menuHeight-1, "Congrats on passing the level!");
+            StdDraw.textLeft(this.menuWidth / 4, this.menuHeight-3, "You're about to begin level " + Engine.level);
                 newLevel = false;
         }
         //shows the canvas — do not clear after show, or the visible menu goes blank
