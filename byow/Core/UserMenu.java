@@ -49,9 +49,9 @@ public class UserMenu {
             StdDraw.setPenColor(Color.PINK);
             Font fontSmall = new Font("Monaco", Font.BOLD, 20);
             StdDraw.setFont(fontSmall);
-            StdDraw.textLeft(this.menuWidth / 3, this.menuHeight-15, "You reached level " + Engine.level);
-            StdDraw.textLeft(this.menuWidth / 3, this.menuHeight-17, "Press Load next time you get on");
-            StdDraw.textLeft(this.menuWidth / 3, this.menuHeight-19, "To continue where you left off");
+            StdDraw.textLeft(this.menuWidth / 3.5, this.menuHeight-0, "You reached level " + Engine.level);
+            StdDraw.textLeft(this.menuWidth / 4, this.menuHeight-2, "Press Load next time you get on");
+            StdDraw.textLeft(this.menuWidth / 4, this.menuHeight-4, "To continue where you left off");
             StdDraw.pause(100);
             quitEarly = false;
         }
@@ -60,7 +60,8 @@ public class UserMenu {
             Font fontSmall = new Font("Monaco", Font.BOLD, 20);
             StdDraw.setFont(fontSmall);
             StdDraw.textLeft(this.menuWidth / 4, this.menuHeight-1, "Gotta be faster next time!");
-            StdDraw.textLeft(this.menuWidth / 4, this.menuHeight-3, "Hope to see you again!");
+            StdDraw.textLeft(this.menuWidth / 3.5, this.menuHeight-3, "Hope to see you again!");
+            StdDraw.textLeft(this.menuWidth / 3.0, this.menuHeight-5, "Game Over!");
             StdDraw.pause(100);
             outOfTime=false;
         }
@@ -69,7 +70,8 @@ public class UserMenu {
             Font fontSmall = new Font("Monaco", Font.BOLD, 20);
             StdDraw.setFont(fontSmall);
             StdDraw.textLeft(this.menuWidth / 4, this.menuHeight-1, "Ouch! No one likes being eaten!");
-            StdDraw.textLeft(this.menuWidth / 4, this.menuHeight-3, "Hope to see you again!");
+            StdDraw.textLeft(this.menuWidth / 3.5, this.menuHeight-3, "Hope to see you again!");
+            StdDraw.textLeft(this.menuWidth / 2.7, this.menuHeight-5, "Game Over!");
             StdDraw.pause(100);
             eatenByEntity = false;
         }
@@ -78,7 +80,7 @@ public class UserMenu {
             Font fontSmall = new Font("Monaco", Font.BOLD, 20);
             StdDraw.setFont(fontSmall);
             StdDraw.textLeft(this.menuWidth / 4, this.menuHeight-1, "We were about to have fun!");
-            StdDraw.textLeft(this.menuWidth / 4, this.menuHeight-3, "Hope to see you again!");
+            StdDraw.textLeft(this.menuWidth / 3.8, this.menuHeight-3, "Hope to see you again!");
             StdDraw.pause(100);
             gameOver = false;
         }
@@ -94,9 +96,10 @@ public class UserMenu {
             StdDraw.setPenColor(Color.PINK);
             Font fontSmall = new Font("Monaco", Font.BOLD, 20);
             StdDraw.setFont(fontSmall);
-            StdDraw.textLeft(this.menuWidth / 3, this.menuHeight-15, "Your avatar is '@'");
+            StdDraw.textLeft(this.menuWidth / 3, this.menuHeight-13, "Your avatar is: ");
+            StdDraw.picture(this.menuWidth / 1.8, this.menuHeight-13, "byow/images/elephant.png");
             StdDraw.textLeft(this.menuWidth / 3, this.menuHeight-17, "Gobble up the flowers to unlock door!");
-            StdDraw.textLeft(this.menuWidth / 3, this.menuHeight-19, "Run through the Door before time runs out!");
+            StdDraw.textLeft(this.menuWidth / 3, this.menuHeight-19, "Run through the door before time runs out!");
             StdDraw.textLeft(this.menuWidth / 3, this.menuHeight-21, "Good Luck!");
             StdDraw.pause(100);
             newGame = false;
@@ -164,13 +167,13 @@ public class UserMenu {
     public void processUserInput(char choice) {
         if (choice=='Q') {
             if(quitEarly) {
-                drawFrame("Leaving so soon? :(");
+                drawFrame("");
                 StdDraw.pause(2000);
                 System.exit(0);
             }
             //end game
             gameOver = true;
-            drawFrame("Game Over!");
+            drawFrame("");
             StdDraw.pause(2000);
             System.exit(0);
         } else if (choice=='N') {
