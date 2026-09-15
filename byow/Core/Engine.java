@@ -118,8 +118,7 @@ public class Engine {
                 }
                 // Update the timer display at most once per second; do not redraw on every poll.
                 if (timeRemaining != lastHudSecond) {
-                    ter.renderFrame(world);
-                    drawHUD();
+                    refreshHUD();
                 }
                 StdDraw.pause(20);
             }
@@ -243,5 +242,20 @@ public class Engine {
         StdDraw.textRight(WIDTH - 1, HEIGHT + 1, "Quit anytime with ':Q'");
         lastHudSecond = timeRemaining;
         StdDraw.show();
+    }
+
+    public void refreshHUD() {
+     //black out only the HUD band: Height+1-3   
+     StdDraw.setPenColor(Color.BLACK);
+     StdDraw.filledRectangle(WIDTH/2.0, HEIGHT + HUD_ROWS/2.0, WIDTH/2.0, HUD_ROWS/2.0);
+     StdDraw.setPenColor(Color.WHITE);
+     StdDraw.setFont(new Font("Monaco", Font.BOLD, 16));
+     StdDraw.textLeft(1, HEIGHT + 3, "Level: " + level);
+     StdDraw.textLeft(1, HEIGHT + 2, "Flowers: " + flowers);
+     StdDraw.textLeft(1, HEIGHT + 1, "Time: " + timeRemaining);
+     StdDraw.textRight(WIDTH - 1, HEIGHT + 3, "Press 'R' to toggle entity path");
+     StdDraw.textRight(WIDTH - 1, HEIGHT + 1, "Quit anytime with ':Q'");
+     lastHudSecond = timeRemaining;
+     StdDraw.show();
     }
 }
