@@ -20,6 +20,8 @@ public class Engine {
     int lockedDoorX;
     int lockedDoorY;
     long startTime;
+    public static TETile playerAvatar;
+    public static String avatarPath;
     public static int level = 1;
     public static int flowers = 1;
     long targetDuration = 20_000_000_000L;
@@ -47,7 +49,7 @@ public class Engine {
         ter.initialize(WIDTH, HEIGHT + HUD_ROWS);
         avatarX = (generate.getFirstX() + 1);
         avatarY = (generate.getFirstY() + 1);
-        world[avatarX][avatarY] = Tileset.AVATAR;
+        world[avatarX][avatarY] = playerAvatar;
         setLockedDoor();
         setFlower();
         setEntity();

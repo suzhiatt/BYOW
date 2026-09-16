@@ -2,6 +2,7 @@ package byow.Core;
 
 import edu.princeton.cs.algs4.StdDraw;
 import java.awt.*;
+import byow.TileEngine.Tileset;
 
 public class UserMenu {
 
@@ -13,6 +14,7 @@ public class UserMenu {
     public boolean quitEarly = false;
     public boolean outOfTime = false;
     public boolean eatenByEntity = false;
+    public boolean chooseAvatar = false;
     private int menuWidth = 60;
     private int menuHeight = 30;
     public long userSeed;
@@ -33,12 +35,12 @@ public class UserMenu {
         //When we want to change what is displayed on the screen, we have to clear the entire screen and redraw everything.
         StdDraw.clear(Color.BLACK);
         //draws everything necessary for the next frame
-        StdDraw.setPenColor(Color.PINK);
+        StdDraw.setPenColor(Color.WHITE);
         Font fontBig = new Font("Monaco", Font.BOLD, 30);
         StdDraw.setFont(fontBig);
         StdDraw.text(this.menuWidth / 2, this.menuHeight / 1.5, string);
         if(welcomeFrame) {
-            StdDraw.setPenColor(Color.PINK);
+            StdDraw.setPenColor(Color.WHITE);
             Font fontSmall = new Font("Monaco", Font.BOLD, 20);
             StdDraw.setFont(fontSmall);
             StdDraw.textLeft(menuWidth/2.25,this.menuHeight-15, "(N)ew Game");
@@ -46,7 +48,7 @@ public class UserMenu {
             StdDraw.textLeft(menuWidth/2.25,this.menuHeight-19, "(Q)uit Game");
         }
         else if (quitEarly) {
-            StdDraw.setPenColor(Color.PINK);
+            StdDraw.setPenColor(Color.WHITE);
             Font fontSmall = new Font("Monaco", Font.BOLD, 20);
             StdDraw.setFont(fontSmall);
             StdDraw.textLeft(this.menuWidth / 3.5, this.menuHeight-0, "You reached level " + Engine.level);
@@ -56,7 +58,7 @@ public class UserMenu {
             quitEarly = false;
         }
         else if(outOfTime) {
-            StdDraw.setPenColor(Color.PINK);
+            StdDraw.setPenColor(Color.WHITE);
             Font fontSmall = new Font("Monaco", Font.BOLD, 20);
             StdDraw.setFont(fontSmall);
             StdDraw.textLeft(this.menuWidth / 4, this.menuHeight-1, "Gotta be faster next time!");
@@ -66,7 +68,7 @@ public class UserMenu {
             outOfTime=false;
         }
         else if (eatenByEntity) {
-            StdDraw.setPenColor(Color.PINK);
+            StdDraw.setPenColor(Color.WHITE);
             Font fontSmall = new Font("Monaco", Font.BOLD, 20);
             StdDraw.setFont(fontSmall);
             StdDraw.textLeft(this.menuWidth / 4, this.menuHeight-1, "Ouch! No one likes being eaten!");
@@ -76,7 +78,7 @@ public class UserMenu {
             eatenByEntity = false;
         }
             else if (gameOver){
-            StdDraw.setPenColor(Color.PINK);
+            StdDraw.setPenColor(Color.WHITE);
             Font fontSmall = new Font("Monaco", Font.BOLD, 20);
             StdDraw.setFont(fontSmall);
             StdDraw.textLeft(this.menuWidth / 4, this.menuHeight-1, "We were about to have fun!");
@@ -85,7 +87,7 @@ public class UserMenu {
             gameOver = false;
         }
             else if (loadSavedGame){
-            StdDraw.setPenColor(Color.PINK);
+            StdDraw.setPenColor(Color.WHITE);
             Font fontSmall = new Font("Monaco", Font.BOLD, 20);
             StdDraw.setFont(fontSmall);
             StdDraw.textLeft(this.menuWidth / 3, this.menuHeight-15, "Get ready for some fun...");
@@ -93,11 +95,11 @@ public class UserMenu {
             loadSavedGame = false;
         }
             else if (newGame){
-            StdDraw.setPenColor(Color.PINK);
+            StdDraw.setPenColor(Color.WHITE);
             Font fontSmall = new Font("Monaco", Font.BOLD, 20);
             StdDraw.setFont(fontSmall);
             StdDraw.textLeft(this.menuWidth / 3, this.menuHeight-13, "Your avatar is: ");
-            StdDraw.picture(this.menuWidth / 1.8, this.menuHeight-13, "byow/images/elephant.png");
+            StdDraw.picture(this.menuWidth / 1.8, this.menuHeight-13, Engine.avatarPath);
             StdDraw.textLeft(this.menuWidth / 3, this.menuHeight-17, "Gobble up the flowers to unlock door!");
             StdDraw.textLeft(this.menuWidth / 3, this.menuHeight-19, "Run through the door before time runs out!");
             StdDraw.textLeft(this.menuWidth / 3, this.menuHeight-21, "Good Luck!");
@@ -105,13 +107,24 @@ public class UserMenu {
             newGame = false;
         }
             else if (newLevel) {
-            StdDraw.setPenColor(Color.PINK);
+            StdDraw.setPenColor(Color.WHITE);
             Font fontSmall = new Font("Monaco", Font.BOLD, 20);
             StdDraw.setFont(fontSmall);
             StdDraw.textLeft(this.menuWidth / 4, this.menuHeight-1, "Congrats on passing the level!");
             StdDraw.textLeft(this.menuWidth / 4, this.menuHeight-3, "You're about to begin level " + Engine.level);
                 newLevel = false;
         }
+            else if (chooseAvatar) {
+                StdDraw.setPenColor(Color.WHITE);
+                StdDraw.picture(24, 17, "byow/images/elephant.jpg");
+                StdDraw.picture(30, 17, "byow/images/cow.jpg");
+                StdDraw.picture(36, 17, "byow/images/guy.jpg");
+                StdDraw.picture(24, 13, "byow/images/kangaroo.jpg");
+                StdDraw.picture(30, 13, "byow/images/rat.jpg");
+                StdDraw.picture(36, 13, "byow/images/walrus.jpg");
+                chooseAvatar = false;
+
+            }
         //shows the canvas — do not clear after show, or the visible menu goes blank
         StdDraw.show();
     }
@@ -125,6 +138,54 @@ public class UserMenu {
                 return Character.toUpperCase(StdDraw.nextKeyTyped());
             }
             //the program will make it check indefinitely, so this causes CPU to reduce usage while still responsive.
+            StdDraw.pause(20);
+        }
+    }
+
+    public void solicitMouseInput() {
+        while(true) {
+            if(StdDraw.isMousePressed()
+                && StdDraw.mouseX() > 21 && StdDraw.mouseX() < 27
+                && StdDraw.mouseY() > 14.0 && StdDraw.mouseY() < 20){
+                    Engine.playerAvatar = Tileset.ELEPHANT;
+                    Engine.avatarPath = "byow/images/elephant.png";
+                    enterSeed();
+                }
+            else if (StdDraw.isMousePressed()
+                && StdDraw.mouseX() > 21 && StdDraw.mouseX() < 27
+                && StdDraw.mouseY() > 10 && StdDraw.mouseY() < 16){
+                    Engine.playerAvatar = Tileset.KANGAROO;
+                    Engine.avatarPath = "byow/images/kangaroo.png";
+                    enterSeed();
+                }
+            else if (StdDraw.isMousePressed()
+                && StdDraw.mouseX() > 27 && StdDraw.mouseX() < 33
+                && StdDraw.mouseY() > 14.0 && StdDraw.mouseY() < 20){
+                    Engine.playerAvatar = Tileset.COW;
+                    Engine.avatarPath = "byow/images/cow.png";
+                    enterSeed();
+                }
+            else if (StdDraw.isMousePressed()
+                && StdDraw.mouseX() > 27 && StdDraw.mouseX() < 33
+                && StdDraw.mouseY() > 10 && StdDraw.mouseY() < 16){
+                    Engine.playerAvatar = Tileset.RAT;
+                    Engine.avatarPath = "byow/images/rat.png";
+                    enterSeed();
+                }
+            else if (StdDraw.isMousePressed()
+                && StdDraw.mouseX() > 33 && StdDraw.mouseX() < 39
+                && StdDraw.mouseY() > 14.0 && StdDraw.mouseY() < 20){
+                    Engine.playerAvatar = Tileset.GUY;
+                    Engine.avatarPath = "byow/images/guy.png";
+                    enterSeed();
+                }
+            else if (StdDraw.isMousePressed()
+                && StdDraw.mouseX() > 33 && StdDraw.mouseX() < 39
+                && StdDraw.mouseY() > 10 && StdDraw.mouseY() < 16){
+                    Engine.playerAvatar = Tileset.WALRUS;
+                    Engine.avatarPath = "byow/images/walrus.png";
+                    enterSeed();
+                }
             StdDraw.pause(20);
         }
     }
@@ -155,6 +216,7 @@ public class UserMenu {
                                 newGame=false;
                                 engine.createWorld(userSeed);
                         }
+                        
                     else {
                             System.out.println("Numbers only, please!");
                         }
@@ -177,8 +239,9 @@ public class UserMenu {
             StdDraw.pause(2000);
             System.exit(0);
         } else if (choice=='N') {
-            drawFrame("Enter a number, press 'S' when finished");
-            receiveUserSeed();
+            chooseAvatar = true;
+            drawFrame("Choose your avatar");
+            solicitMouseInput();
         } else if (choice=='L') {
             loadSavedGame=true;
             drawFrame("Loading Saved Game!");
@@ -189,6 +252,10 @@ public class UserMenu {
             welcomeFrame = true;
             engine.interactWithKeyboard();
         }
+    }
+    public void enterSeed() {
+        drawFrame("Enter a number, press 'S' when finished");
+        receiveUserSeed();
     }
 }
 

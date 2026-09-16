@@ -41,17 +41,17 @@ public class SaveGame {
             String fileContent = Files.readString(Paths.get(filePath), StandardCharsets.UTF_8);
             String[] lines = fileContent.split("\\R");
 
-                String timeLine = lines[lines.length-3];
+                String timeLine = lines[lines.length-4];
                     String timeStr = timeLine.substring("time:".length()).trim();
                     System.out.println("Time remaining is " + timeStr);
                     Engine.loadStartTime = true;
                     Engine.timeRemaining = Long.parseLong(timeStr);
 
-                String flowersLine = lines[lines.length-2];
+                String flowersLine = lines[lines.length-3];
                     String flowerStr = flowersLine.substring("flowers:".length()).trim();
                     Engine.flowers=(Integer.parseInt(flowerStr));
 
-                String levelLine = lines[lines.length - 1];
+                String levelLine = lines[lines.length - 2];
                     String levelStr = levelLine.substring("level:".length()).trim();
                     Engine.level = Integer.parseInt(levelStr);
 
@@ -68,7 +68,7 @@ public class SaveGame {
                             RandomPlaces.placesMap.put(new RandomPlaces.Coordinate(x,y), "flower");
                             break;
                         case '@':
-                            tile = Tileset.AVATAR;
+                            tile = Engine.playerAvatar;
                             RandomPlaces.placesMap.put(new RandomPlaces.Coordinate(x,y), "avatar");
                             engine.avatarX = x;
                             engine.avatarY = y;

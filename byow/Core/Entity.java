@@ -109,7 +109,7 @@ public class Entity {
                 currentY = next.y;
 
                 //check for collision
-                if(world[currentX][currentY] == Tileset.AVATAR) {
+                if(world[currentX][currentY] == Engine.playerAvatar) {
                     world[currentX][currentY] = Tileset.SAND;
                     userMovement.engine.userEaten();
                     //renderFrame

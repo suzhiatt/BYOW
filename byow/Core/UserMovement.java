@@ -49,7 +49,7 @@ public class UserMovement {
             currentY = newY;
             // Update tiles
             RandomPlaces.placesMap.put(new RandomPlaces.Coordinate(currentX, currentY), "avatar");
-            tiles[currentX][currentY] = Tileset.AVATAR;
+            tiles[currentX][currentY] = Engine.playerAvatar;
             if(flowerEaten) {
                 Engine.flowers--;
                 flowerEaten=false;
