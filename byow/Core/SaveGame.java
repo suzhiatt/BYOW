@@ -24,7 +24,8 @@ public class SaveGame {
         fr.write(writtenWorld);
         fr.write("\ntime: " + Engine.timeRemaining);
         fr.write("\nflowers: " + Engine.flowers);
-        fr.write("\nlevel:" + Engine.level);
+        fr.write("\nlevel: " + Engine.level);
+        fr.write("\navatar: " + Engine.avatarPath);
         fr.close();
         System.out.println("Just copied all of the current world in the file 'savedGame.txt'");
     }
@@ -54,6 +55,31 @@ public class SaveGame {
                 String levelLine = lines[lines.length - 2];
                     String levelStr = levelLine.substring("level:".length()).trim();
                     Engine.level = Integer.parseInt(levelStr);
+
+                String avatarLine = lines[lines.length -1];
+                    String avatarStr = avatarLine.substring("avatar:".length()).trim();
+                    Engine.avatarPath = avatarStr;
+                 
+                if(Engine.avatarPath.equals("byow/images/elephant.png")){
+                    Engine.playerAvatar = Tileset.ELEPHANT;
+                }
+                else if(Engine.avatarPath.equals("byow/images/cow.png")){
+                    Engine.playerAvatar = Tileset.COW;
+                }
+                else if(Engine.avatarPath.equals("byow/images/guy.png")){
+                    Engine.playerAvatar = Tileset.GUY;}
+                else if(Engine.avatarPath.equals("byow/images/kangaroo.png")){
+                    Engine.playerAvatar = Tileset.KANGAROO;
+                }
+                else if(Engine.avatarPath.equals("byow/images/rat.png")){
+                    Engine.playerAvatar = Tileset.RAT;
+                }
+                else if(Engine.avatarPath.equals("byow/images/cow.png")){
+                    Engine.playerAvatar = Tileset.COW;
+                }
+                else if(Engine.avatarPath.equals("byow/images/walrus.png")){
+                    Engine.playerAvatar = Tileset.WALRUS;
+                }
 
             for (int i = 0; i < lines.length-1 && i<HEIGHT; i++) {
                 String line = lines[i];
