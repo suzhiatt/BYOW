@@ -4,7 +4,7 @@
     {
       "label": "Compile BYOW",
       "type": "shell",
-      "command": "export JAVA_HOME=\"/Library/Java/JavaVirtualMachines/temurin-22.jdk/Contents/Home\" && export PATH=\"$JAVA_HOME/bin:$PATH\" && mkdir -p bin && javac -proc:none -cp \".idea/libraries/algs4 (2).jar\" -d bin $(find byow -name '*.java') && echo COMPILE_OK",
+      "command": "${workspaceFolder}/run.sh compile",
       "options": {
         "cwd": "${workspaceFolder}"
       },
