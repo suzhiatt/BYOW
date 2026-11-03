@@ -60,6 +60,7 @@ public class RandomPlaces {
         firstX = r.nextInt(4)+1;
         firstY = r.nextInt(4)+1;
         addRoomFromTopHallway(firstX,firstY);
+        fillMissingTopRightCorners();
     }
 
     public void generateRooms(int x, int y) {
@@ -273,6 +274,28 @@ for (int cx : xs) {
                 setWall(x + rightHallLength, y-1);
             }
         }
+    }
+
+    private void fillMissingTopRightCorners() {
+        for (int x = 1; x < totalWidth; x++) {
+            for (int y = 1; y < totalHeight; y++) {
+                if (tiles[x][y] == Tileset.NOTHING
+                        && tiles[x - 1][y] == Tileset.WALL
+                        && tiles[x][y - 1] == Tileset.WALL
+                        && tiles[x - 1][y - 1] == Tileset.FLOOR) {
+                    setWall(x, y);
+                }
+            
+            if (x + 2 < totalWidth
+                && tiles[x][y] == Tileset.FLOOR
+                && tiles[x + 1][y] == Tileset.WALL
+                && tiles[x + 2][y] == Tileset.WALL
+                && tiles[x][y - 1] == Tileset.WALL
+                && tiles[x + 1][y - 1] == Tileset.FLOOR) {
+            setWall(x, y);
+        }
+        }
+    }
     }
 
     public static String getValue(Coordinate key) {
