@@ -2,7 +2,6 @@ package byow.Core;
 
 import byow.TileEngine.TETile;
 import byow.TileEngine.Tileset;
-
 import java.util.HashMap;
 import java.util.Objects;
 import java.util.Random;
@@ -141,14 +140,14 @@ public class RandomPlaces {
             callHallways(x,y);
         }
         else {
-            tiles[x + rightHallLength][y + 2] = Tileset.WALL;
-            placesMap.put(new Coordinate(x + rightHallLength, y + 2), "wall");
+            tiles[x][y + 2] = Tileset.WALL;
+            placesMap.put(new Coordinate(x, y + 2), "wall");
 
-            tiles[x + rightHallLength][y+1] = Tileset.WALL;
-            placesMap.put(new Coordinate(x + rightHallLength, y+1), "endMiddle");
+            tiles[x][y+1] = Tileset.WALL;
+            placesMap.put(new Coordinate(x, y+1), "endMiddle");
 
-            tiles[x + rightHallLength][y] = Tileset.WALL;
-            placesMap.put(new Coordinate(x + rightHallLength, y), "wall");
+            tiles[x][y] = Tileset.WALL;
+            placesMap.put(new Coordinate(x, y), "wall");
         }
     }
 
@@ -168,7 +167,7 @@ public class RandomPlaces {
                             //coordinate options: floor, roomFloor, wall, endMiddle
                             if("endMiddle".equals(tile)) {
                                 if(i==(x+1)) {
-                                    System.out.println("Building aTH and reach an endMiddle, placing a wall. Line 182");
+                                    System.out.println("Building aTH and reach an endMiddle, placing a wall. Line 170");
                                     setWall(i,j);
                                 }
                                 else {
@@ -205,9 +204,17 @@ public class RandomPlaces {
                         else if ("wall".equals(topTile)) {
                             if("roomFloor".equals(placesMap.get(new Coordinate(x-1, y + hallLength))) || placesMap.get(new Coordinate(x+1, y + hallLength)) == null) {
                                 //we encountered a room wall on the right side, so we need to end the hallway in three tiles...
-                                setWall(x-1,y+hallLength);
-                                setWall(x,y+hallLength);
-                                setWall(x+1, y+hallLength);
+                                // setWall(x-1,y+hallLength);
+                                // setWall(x,y+hallLength);
+                                // setWall(x+1, y+hallLength);
+                                int endY = y + hallLength;
+int[] xs = {x - 1, x, x + 1};
+for (int cx : xs) {
+    String existing = placesMap.get(new Coordinate(cx, endY));
+    if (!"floor".equals(existing) && !"roomFloor".equals(existing)) {
+        setWall(cx, endY);
+    }
+}
                             }
                         }
                     }
@@ -225,7 +232,7 @@ public class RandomPlaces {
 
 
     private void addRightHallway(int x, int y) {
-        int rightHallLength = r.nextInt(10 - 3 + 1) + 3;
+        rightHallLength = r.nextInt(10 - 3 + 1) + 3;
         if (isValidPosition(x + rightHallLength, y + 1) && isValidPosition(x, y)) {
             tiles[x][y] = Tileset.FLOOR;
             placesMap.put(new Coordinate(x, y), "floor");
